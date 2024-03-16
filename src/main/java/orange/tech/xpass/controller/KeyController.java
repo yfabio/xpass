@@ -8,6 +8,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.springframework.stereotype.Component;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -88,11 +89,17 @@ public class KeyController extends BaseController implements CallBackController<
 		cancel.setOnAction(evt -> {
 			navigation.set(navigationService.getNavigator(HomeController.class));
 		});
+				
+		key.idProperty().addListener((obs,x,y) -> {
+			save.textProperty().bind(Bindings.when(key.idProperty().greaterThan(0)).then("edit").otherwise("save"));
+		});
+		
+		
 	}
 
 	@Override
 	public void content(Supplier<Key> sup) {
-		key.setData(sup.get());
+		key.setData(sup.get());		
 	}
 
 }

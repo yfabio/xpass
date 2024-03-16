@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import orange.tech.xpass.entity.Key;
 import orange.tech.xpass.fx.ActionTableCell;
-import orange.tech.xpass.fx.PasswordFieldTableCellFactory;
+import orange.tech.xpass.fx.PasswordFieldTableCell;
 import orange.tech.xpass.navigation.NavigationService;
 
 @Component
@@ -60,37 +60,33 @@ public class HomeController extends BaseController {
 		
 		ObservableList<Key> list = FXCollections.observableArrayList();
 		
-		list.add(new Key(LocalDate.now(), "Note 1", "user-1","abc@123"));
-		list.add(new Key(LocalDate.now(), "Note 2", "user-2","abc@123"));
-		list.add(new Key(LocalDate.now(), "Note 3", "user-3","abc@123"));
-		list.add(new Key(LocalDate.now(), "Note 4", "user-4","abc@123"));
+		list.add(new Key(1,LocalDate.now(), "Note 1", "user-1","abc@123"));
+		list.add(new Key(2,LocalDate.now(), "Note 2", "user-2","xyz@123"));
+		list.add(new Key(3,LocalDate.now(), "Note 3", "user-3","ksakh"));
+		list.add(new Key(4,LocalDate.now(), "Note 4", "user-4","19sng"));
 		
 		
 		
+		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");
+		passwordColumn.setCellFactory(c -> new PasswordFieldTableCell<>());
+		passwordColumn.setCellValueFactory(c -> c.getValue().passwordProperty());
+				
 		
-		TableColumn<Key, Void> editColumn = new TableColumn<>("Edit");
-		editColumn.setSortable(false);
-		editColumn.setEditable(false);
+		TableColumn<Key, Void> editColumn = new TableColumn<>("Edit");	
 		editColumn.setCellFactory(c -> new ActionTableCell<>(FontAwesomeSolid.EDIT, key -> {
 			 navigation.set(navigationService.getNavigator(KeyController.class,() -> key));
 		}));
 
 		
 		
-		TableColumn<Key, Void> deleteColumn = new TableColumn<>("Delete");
-		deleteColumn.setSortable(false);
-		deleteColumn.setEditable(false);
+		TableColumn<Key, Void> deleteColumn = new TableColumn<>("Delete");	
 		deleteColumn.setCellFactory(c -> new ActionTableCell<>(FontAwesomeSolid.TRASH, key -> {
-						
+			System.out.println(key);			
 		}));
 		
 		
-		
-		
-		
-		
 		keys.setItems(list);
-		keys.getColumns().addAll(List.of(editColumn,deleteColumn));
+		keys.getColumns().addAll(List.of(passwordColumn,editColumn,deleteColumn));
 		
 		
 	}

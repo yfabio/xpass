@@ -24,7 +24,8 @@ public class Key {
 	public Key() {
 	}
 
-	public Key(LocalDate date, String note, String username, String password) {
+	public Key(int id,LocalDate date, String note, String username, String password) {
+		this.id.set(id);
 		this.date.set(date);
 		this.note.set(note);
 		this.username.set(username);

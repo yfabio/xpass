@@ -19,7 +19,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import orange.tech.xpass.fx.TextFieldTableCellFactory?>
-<?import orange.tech.xpass.fx.PasswordFieldTableCellFactory?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane stylesheets="@../css/style.css"
@@ -135,15 +134,7 @@
 							<cellFactory>
 								<TextFieldTableCellFactory />
 							</cellFactory>
-						</TableColumn>
-						<TableColumn text="Password">
-							<cellValueFactory>
-								<PropertyValueFactory property="password" />
-							</cellValueFactory>
-							<cellFactory>
-								<PasswordFieldTableCellFactory />
-							</cellFactory>
-						</TableColumn>
+						</TableColumn>									
 					</columns>
 					<columnResizePolicy>
 						<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
