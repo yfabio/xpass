@@ -10,8 +10,8 @@ public class TextFieldTableCellFactory <S,T> implements Callback<TableColumn<S, 
 	
 	@Override
 	public TableCell<S, T> call(TableColumn<S, T> arg0) {
-		 TextFieldTableCell<S,T> tableCell = new TextFieldTableCell<S,T>();
-		 tableCell.setAlignment(Pos.CENTER);
+		 TextFieldTableCell<S,T> tableCell = new TextFieldTableCell<S,T>();	 		 
+		 tableCell.setAlignment(Pos.CENTER);		 
 		 return tableCell;
 	}
 

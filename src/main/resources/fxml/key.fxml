@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -18,10 +19,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import orange.tech.xpass.fx.PasswordField?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import orange.tech.xpass.entity.Key?>
+<?import orange.tech.xpass.fx.Binder?>
 
 <StackPane stylesheets="@../css/style.css"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="orange.tech.xpass.controller.KeyController">
+	fx:controller="orange.tech.xpass.controller.KeyController">	
+	<fx:define>
+		<Key fx:id="key"/>		
+	</fx:define>
 	<children>
 		<AnchorPane stylesheets="@../css/style.css">
 			<children>
@@ -42,16 +48,21 @@
 									<children>
 										<DatePicker fx:id="date"
 											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-									</children>
+											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>	
+											<fx:define>
+												<Binder o1="$key" p1="date" o2="$date" p2="value" />
+											</fx:define>										
+									</children>																			
 								</AnchorPane>
 								<Label text="Note" />
 								<AnchorPane>
 									<children>
-										<TextField prefHeight="34.666666666666664"
-											prefWidth="202.66666666666666" AnchorPane.bottomAnchor="0.0"
+										<TextField fx:id="note" AnchorPane.bottomAnchor="0.0"
 											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 											AnchorPane.topAnchor="0.0" />
+											<fx:define>
+												<Binder o1="$key" p1="note" o2="$note" p2="text" />
+											</fx:define>
 									</children>
 								</AnchorPane>
 								<Label text="Username/Email" />
@@ -60,6 +71,9 @@
 										<TextField fx:id="username"
 											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+										<fx:define>
+											<Binder o1="$key" p1="username" o2="$username" p2="text" />
+										</fx:define>	
 									</children>
 								</AnchorPane>
 								<Label text="Password" />
@@ -67,6 +81,9 @@
 									<children>
 										<PasswordField fx:id="password"
 											HBox.hgrow="ALWAYS" />
+										<fx:define>
+											<Binder o1="$key" p1="password" o2="$password" p2="text" />
+										</fx:define>	
 										<Button fx:id="pwdHide" mnemonicParsing="false"
 											styleClass="key_button">
 											<graphic>
@@ -89,7 +106,7 @@
 											<children>
 												<Label text="Password Length"
 													StackPane.alignment="CENTER_LEFT" />
-												<Spinner fx:id="pwdLength"
+												<Spinner fx:id="spinner"
 													StackPane.alignment="CENTER_RIGHT">
 													<valueFactory>
 														<SpinnerValueFactory.IntegerSpinnerValueFactory
@@ -162,7 +179,7 @@
 									</padding>
 								</HBox>
 							</children>
-						</VBox>
+						</VBox>						
 					</children>
 				</GridPane>
 			</children>

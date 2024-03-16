@@ -21,6 +21,16 @@ public class Key {
 
 	private StringProperty password = new SimpleStringProperty();
 
+	public Key() {
+	}
+
+	public Key(LocalDate date, String note, String username, String password) {
+		this.date.set(date);
+		this.note.set(note);
+		this.username.set(username);
+		this.password.set(password);
+	}
+
 	public LongProperty idProperty() {
 		return this.id;
 	}
@@ -79,6 +89,20 @@ public class Key {
 
 	public void setPassword(final String password) {
 		this.passwordProperty().set(password);
+	}
+
+	public void setData(Key key) {
+		setId(key.getId());
+		setDate(key.getDate());
+		setNote(key.getNote());
+		setUsername(key.getUsername());
+		setPassword(key.getPassword());
+	}
+
+	@Override
+	public String toString() {
+		return "Key [id=" + id.get() + ", date=" + date.get() + ", note=" + note.get() + ", username=" + username.get() + ", password="
+				+ password.get() + "]";
 	}
 
 }

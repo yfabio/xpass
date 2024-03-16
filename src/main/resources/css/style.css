@@ -121,13 +121,21 @@
 	-fx-background-color: -fx-first;
 }
 
-.table-column {
-	-fx-background-color: -fx-first;
+
+.table-view .column-header {
+    -fx-background-color: -fx-first;
 }
+
 
 .table-column  > .label {
 	-fx-text-fill: #fff;
 }
+
+.table-view .column-header .arrow {
+    -fx-background-color: #fff;
+}
+
+
 
 
 .home {
@@ -153,13 +161,31 @@
 .home_date_search {
 	-fx-min-height: 100;
 	-fx-vgap: 5;
-	
 }
 
 .home_date_search_button {
 	-fx-background-color: -fx-first;
 	-fx-text-fill: #fff;
 	-fx-min-width: 60;
+}
+
+.home_table_action_button {
+ 	-fx-background-color: -fx-first;
+ 	-fx-alignment: center; 
+ 	-fx-pref-height: 35;	
+}
+
+.home_table_action_button > .ikonli-font-icon {
+	-fx-fill: #fff;
+}
+
+.home_table_password_field {
+	-fx-background-color: -fx-none;
+	-fx-border-color: -fx-none;	
+}
+
+.home_table_password_field:focused {
+	-fx-border-color: -fx-none;	
 }
 
 
