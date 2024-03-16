@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import orange.tech.xpass.fx.PasswordField?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<StackPane stylesheets="@../css/style.css"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="orange.tech.xpass.controller.KeyController">
+	<children>
+		<AnchorPane stylesheets="@../css/style.css">
+			<children>
+				<GridPane alignment="CENTER" AnchorPane.bottomAnchor="0.0"
+					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+					AnchorPane.topAnchor="0.0">
+					<columnConstraints>
+						<ColumnConstraints minWidth="10.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" />
+					</rowConstraints>
+					<children>
+						<VBox styleClass="key">
+							<children>
+								<Label text="Date" />
+								<AnchorPane>
+									<children>
+										<DatePicker fx:id="date"
+											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+									</children>
+								</AnchorPane>
+								<Label text="Note" />
+								<AnchorPane>
+									<children>
+										<TextField prefHeight="34.666666666666664"
+											prefWidth="202.66666666666666" AnchorPane.bottomAnchor="0.0"
+											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+											AnchorPane.topAnchor="0.0" />
+									</children>
+								</AnchorPane>
+								<Label text="Username/Email" />
+								<AnchorPane>
+									<children>
+										<TextField fx:id="username"
+											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+									</children>
+								</AnchorPane>
+								<Label text="Password" />
+								<HBox>
+									<children>
+										<PasswordField fx:id="password"
+											HBox.hgrow="ALWAYS" />
+										<Button fx:id="pwdHide" mnemonicParsing="false"
+											styleClass="key_button">
+											<graphic>
+												<StackPane>
+													<children>
+														<FontIcon fx:id="open" iconLiteral="fas-eye"
+															iconSize="16" />
+														<FontIcon fx:id="close"
+															iconLiteral="fas-eye-slash" iconSize="16" />
+													</children>
+												</StackPane>
+											</graphic>
+										</Button>
+									</children>
+								</HBox>
+								<Label text="Generate Password" />
+								<VBox spacing="5.0">
+									<children>
+										<StackPane>
+											<children>
+												<Label text="Password Length"
+													StackPane.alignment="CENTER_LEFT" />
+												<Spinner fx:id="pwdLength"
+													StackPane.alignment="CENTER_RIGHT">
+													<valueFactory>
+														<SpinnerValueFactory.IntegerSpinnerValueFactory
+															amountToStepBy="1" initialValue="1" max="16" min="4" />
+													</valueFactory>
+												</Spinner>
+											</children>
+										</StackPane>
+										<StackPane>
+											<children>
+												<Label text="Include uppercase letters"
+													StackPane.alignment="CENTER_LEFT" />
+												<CheckBox fx:id="upperLetters"
+													mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT" />
+											</children>
+										</StackPane>
+										<StackPane>
+											<children>
+												<Label text="Include lowercase letters"
+													StackPane.alignment="CENTER_LEFT" />
+												<CheckBox fx:id="lowerLetters"
+													mnemonicParsing="false" StackPane.alignment="CENTER_RIGHT" />
+											</children>
+										</StackPane>
+										<StackPane>
+											<children>
+												<Label text="Include numbers"
+													StackPane.alignment="CENTER_LEFT" />
+												<CheckBox fx:id="numbers" mnemonicParsing="false"
+													StackPane.alignment="CENTER_RIGHT" />
+											</children>
+										</StackPane>
+										<StackPane>
+											<children>
+												<Label text="Include symbols"
+													StackPane.alignment="CENTER_LEFT" />
+												<CheckBox fx:id="symbols" mnemonicParsing="false"
+													StackPane.alignment="CENTER_RIGHT" />
+											</children>
+										</StackPane>
+										<AnchorPane>
+											<children>
+												<Button fx:id="generate" mnemonicParsing="false"
+													styleClass="key_button" text="generate"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+									</children>
+								</VBox>
+								<HBox alignment="CENTER_LEFT" spacing="5.0">
+									<children>
+										<Button fx:id="save" mnemonicParsing="false"
+											text="save">
+											<styleClass>
+												<String fx:value="key_button" />
+												<String fx:value="key_action_button" />
+											</styleClass>
+										</Button>
+										<Button fx:id="cancel" mnemonicParsing="false"
+											text="cancel">
+											<styleClass>
+												<String fx:value="key_button" />
+												<String fx:value="key_action_button" />
+											</styleClass>
+										</Button>
+									</children>
+									<padding>
+										<Insets bottom="5.0" right="5.0" top="5.0" />
+									</padding>
+								</HBox>
+							</children>
+						</VBox>
+					</children>
+				</GridPane>
+			</children>
+		</AnchorPane>
+	</children>
+</StackPane>

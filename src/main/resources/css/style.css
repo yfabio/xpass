@@ -1,0 +1,249 @@
+.root {
+	-fx-none: transparent;	
+	-fx-first: #6C22A6;
+		
+	-fx-font-family: 'sans-serif,serif';
+	-fx-background-color: #fff;
+	-fx-font-size: 1.2em;
+	-fx-focus-color: -fx-none;
+	-fx-faint-focus-color: -fx-none;		
+}
+
+#placeHolder {
+	-fx-background-color: #fff;
+}
+
+.text-field,
+.password-field,
+.text-area,
+.button {
+	-fx-border-radius: 2;
+	-fx-padding: 5;	
+}
+
+.button {	
+	-fx-text-fill: #fff;
+	-fx-font-weight: bold;
+}
+
+
+.ikonli-font-icon {
+	-fx-fill: #fff;
+}
+
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused {
+	 -fx-border-color: -fx-first; 	
+}
+
+.text-field, .password-feild {
+	-fx-border-color: -fx-first;
+	-fx-border-width: 0 0 2 0;
+	-fx-background-color: #fff;	
+}
+
+
+.first-titled-pane > .title {
+	-fx-background-color: -fx-first;
+}
+
+.first-titled-pane > .title > .arrow-button > .arrow {
+	-fx-background-color: #fff;
+}
+
+.first-titled-pane > .title > .text {
+	-fx-fill: #fff;
+}
+
+
+.date-picker {
+	-fx-background-color: #fff;	
+}
+
+.date-picker > .arrow-button {
+	-fx-background-color: -fx-first;
+}
+
+.date-picker > .arrow-button > .arrow {
+	-fx-background-color: #fff;	
+}
+
+.login {
+	-fx-background-radius: 8;
+	-fx-border-radius: 8;
+	-fx-pref-width: 400;
+	-fx-padding: 8;	
+	-fx-spacing: 5;
+}
+
+.login > .label {
+	-fx-font-weight: bold;
+}
+
+.login_button {
+	-fx-background-color: -fx-first;
+}
+
+.login_title {
+	-fx-font-size: 2.5em;	
+}
+
+.login_register:hover {
+	-fx-text-fill: -fx-first;	
+} 
+
+.main {
+	-fx-background-color: -fx-none;
+}
+
+.main_logo {
+	
+}
+
+.main_user_content {
+	-fx-alignment: center-right;
+	-fx-padding: 5;
+	-fx-spacing: 10;
+}
+
+.main_menu {
+	-fx-background-color: #fff;
+	-fx-min-width: 100;	
+	-fx-max-width: 200;
+	-fx-pref-width: 150;
+	-fx-padding: 5;
+	-fx-spacing: 5;
+}
+
+.main_menu_button {
+	-fx-background-color: -fx-first;
+}
+
+.table-column {
+	-fx-background-color: -fx-first;
+}
+
+.table-column  > .label {
+	-fx-text-fill: #fff;
+}
+
+
+.home {
+	-fx-background-color: #fff;
+	-fx-spacing: 5;
+	-fx-padding: 8	
+}
+
+.home > .label {
+	-fx-text-fill: black;
+}
+
+.home_search {
+	-fx-alignment: center-left;
+	-fx-spacing: 5; 
+}
+
+.home_search > .button {
+	-fx-background-color: -fx-first;
+	-fx-min-width: 60;	
+}
+
+.home_date_search {
+	-fx-min-height: 100;
+	-fx-vgap: 5;
+	
+}
+
+.home_date_search_button {
+	-fx-background-color: -fx-first;
+	-fx-text-fill: #fff;
+	-fx-min-width: 60;
+}
+
+
+
+
+.key {
+	-fx-pref-width: 400;
+	-fx-spacing: 5;
+}
+
+.key > .label {
+	-fx-text-fill: black;
+}
+
+.key_button {
+	-fx-background-color: -fx-first;
+}
+
+.key_action_button {
+	-fx-pref-width: 100;	
+}
+
+.spinner > .increment-arrow-button, .decrement-arrow-button{
+	-fx-background-color: -fx-first; 
+}
+
+.spinner > .increment-arrow-button > .increment-arrow{
+	-fx-background-color: #fff;
+}
+
+ .spinner > .decrement-arrow-button > .decrement-arrow {
+ 	-fx-background-color: #fff;
+ }
+
+.check-box:determinate:selected > .box {
+	-fx-background-color: -fx-first;
+}
+
+.check-box:determinate:selected > .box > .mark {
+	-fx-background-color: #fff;
+}
+
+.check-box:determinate > .box {
+	-fx-background-color: #fff;
+	-fx-border-color: -fx-first;
+	-fx-border-width: 2;
+}
+
+
+
+.config {
+	-fx-pref-width: 500;
+	-fx-spacing: 5;
+	-fx-padding: 8;
+}
+
+.config > .label {
+	-fx-text-fill: black;
+}
+
+.config_profile_photo {
+	-fx-spacing: 5;
+}
+
+.config_button {
+	-fx-background-color: -fx-first;
+}
+
+.config_button_container {
+	-fx-spacing: 5;
+}
+
+.config_action_button {
+	-fx-pref-width: 100;
+}
+
+
+
+
+
+
+
+
+
+
+
+
