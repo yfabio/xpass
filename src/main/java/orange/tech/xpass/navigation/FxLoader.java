@@ -21,7 +21,9 @@ public class FxLoader {
 		MAIN("/fxml/main.fxml"), 
 		HOME("/fxml/home.fxml"), 
 		KEY("/fxml/key.fxml"), 
-		CONFIG("/fxml/config.fxml"); 
+		CONFIG("/fxml/config.fxml"), 
+		RM("/fxml/deleteModal.fxml"),
+		PM("/fxml/proceedModal.fxml"); 
 		
 		
 		private String path;

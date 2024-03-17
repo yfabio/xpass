@@ -13,7 +13,7 @@ public abstract class BaseController implements Initializable {
 	protected static final ObjectProperty<Navigator> navigation = new SimpleObjectProperty<Navigator>();
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle rb) {}
+	public void initialize(URL url, ResourceBundle rb) {}
 	
 	
 

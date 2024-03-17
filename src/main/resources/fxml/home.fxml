@@ -22,7 +22,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <StackPane stylesheets="@../css/style.css"
-	xmlns:fx="http://javafx.com/fxml/1" 
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.HomeController">
 	<children>
 		<VBox styleClass="home">
@@ -108,8 +108,8 @@
 						</TitledPane>
 					</panes>
 				</Accordion>
-				<TableView fx:id="keys"
-					tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+				<TableView fx:id="keys" tableMenuButtonVisible="true"
+					VBox.vgrow="ALWAYS">
 					<columns>
 						<TableColumn text="Date">
 							<cellValueFactory>
@@ -134,7 +134,7 @@
 							<cellFactory>
 								<TextFieldTableCellFactory />
 							</cellFactory>
-						</TableColumn>									
+						</TableColumn>
 					</columns>
 					<columnResizePolicy>
 						<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

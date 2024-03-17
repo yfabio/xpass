@@ -7,7 +7,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import orange.tech.xpass.fx.PlaceHolder?>
@@ -17,63 +20,84 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.MainController">
 	<children>
-		<BorderPane styleClass="main">
-			<center>
-				<SplitPane dividerPositions="0.5">
-					<items>
-						<VBox alignment="TOP_CENTER" prefHeight="571.3333333333334"
-							prefWidth="445.3333333333333" styleClass="main_menu">
+		<StackPane stylesheets="@../css/style.css">
+			<children>
+				<BorderPane styleClass="main">
+					<center>
+						<SplitPane dividerPositions="0.5">
+							<items>
+								<VBox alignment="TOP_CENTER" prefHeight="571.3333333333334"
+									prefWidth="445.3333333333333" styleClass="main_menu">
+									<children>
+										<AnchorPane>
+											<children>
+												<Button fx:id="key" mnemonicParsing="false"
+													styleClass="main_menu_button" text="New"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+										<AnchorPane>
+											<children>
+												<Button fx:id="list" mnemonicParsing="false"
+													styleClass="main_menu_button" text="Listing"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+										<AnchorPane>
+											<children>
+												<Button fx:id="config" mnemonicParsing="false"
+													styleClass="main_menu_button" text="Settings"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+									</children>
+								</VBox>
+								<PlaceHolder fx:id="placeHolder" />
+							</items>
+						</SplitPane>
+					</center>
+					<top>
+						<HBox BorderPane.alignment="CENTER">
 							<children>
-								<AnchorPane>
+								<HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
+								<HBox alignment="CENTER_RIGHT"
+									styleClass="main_user_content" HBox.hgrow="ALWAYS">
 									<children>
-										<Button fx:id="key" mnemonicParsing="false"
-											styleClass="main_menu_button" text="New"
-											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+										<ImageView fx:id="profile" fitHeight="30.0"
+											fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+											<image>
+												<Image
+													url="@../../../../../../../../OneDrive/Imagens/tcs%20photo-3.png" />
+											</image>
+										</ImageView>
+										<Label fx:id="email" text="yfabioyasuo@gmail.com" />
 									</children>
-								</AnchorPane>
-								<AnchorPane>
-									<children>
-										<Button fx:id="list" mnemonicParsing="false"
-											styleClass="main_menu_button" text="Listing"
-											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-									</children>
-								</AnchorPane>
-								<AnchorPane>
-									<children>
-										<Button fx:id="config" mnemonicParsing="false"
-											styleClass="main_menu_button" text="Settings"
-											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-									</children>
-								</AnchorPane>
-							</children>
-						</VBox>
-						<PlaceHolder fx:id="placeHolder" />
-					</items>
-				</SplitPane>
-			</center>
-			<top>
-				<HBox BorderPane.alignment="CENTER">
-					<children>
-						<HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" />
-						<HBox alignment="CENTER_RIGHT" styleClass="main_user_content"
-							HBox.hgrow="ALWAYS">
-							<children>
-								<ImageView fx:id="profile" fitHeight="30.0"
-									fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-									<image>
-										<Image
-											url="@../../../../../../../../OneDrive/Imagens/tcs%20photo-3.png" />
-									</image>
-								</ImageView>
-								<Label fx:id="email" text="yfabioyasuo@gmail.com" />
+								</HBox>
 							</children>
 						</HBox>
+					</top>
+				</BorderPane>
+			</children>
+		</StackPane>
+		<StackPane fx:id="modalRoot" prefHeight="150.0"
+			prefWidth="200.0" style="-fx-background-color: rgb(0,0,0,0.33);"
+			visible="false">
+			<children>
+				<GridPane alignment="CENTER">
+					<columnConstraints>
+						<ColumnConstraints minWidth="10.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" />
+					</rowConstraints>
+					<children>
+						<HBox fx:id="modalContent" prefWidth="400.0" />
 					</children>
-				</HBox>
-			</top>
-		</BorderPane>
+				</GridPane>
+			</children>
+		</StackPane>
 	</children>
 </StackPane>

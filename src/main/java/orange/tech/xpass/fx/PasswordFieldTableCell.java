@@ -1,9 +1,9 @@
 package orange.tech.xpass.fx;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
@@ -22,12 +22,15 @@ public class PasswordFieldTableCell<S, T> extends TableCell<S, T> {
 	
 	private PasswordField password = new PasswordField();
 	
-	private ScheduledExecutorService job = Executors.newSingleThreadScheduledExecutor();
-
-	public PasswordFieldTableCell() {
+	private ScheduledExecutorService job;
+	
+	public PasswordFieldTableCell(Consumer<Consumer<Boolean>> canProceed) {
+		
 		this.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 		this.password.getStyleClass().add("home_table_password_field");
 		this.password.setEditable(false);
+		
+		
 		
 		ContextMenu contextMenu = new ContextMenu();
 		
@@ -35,17 +38,24 @@ public class PasswordFieldTableCell<S, T> extends TableCell<S, T> {
 		
 		menuItemShow.setOnAction(evt -> {
 			
-			//TODO open modal to request password;
+			if(menuItemShow.getText().equals("hide")) {
+				password.toggle();
+			}else {
+				canProceed.accept(value -> {
+					
+					menuItemShow.setText("hide");	
+					password.toggle();
+					password.hideProperty().addListener((obs,x,y) -> {
+						if(y) {
+							menuItemShow.setText("hide");		
+						}else {						
+							menuItemShow.setText("show");		
+						}
+					});					
+					
+				});
+			}
 			
-			menuItemShow.setText("hide");
-			password.toggle();
-			password.hideProperty().addListener((obs,x,y) -> {
-				if(y) {
-					menuItemShow.setText("hide");		
-				}else {						
-					menuItemShow.setText("show");		
-				}
-			});
 			
 			
 		});
@@ -54,36 +64,39 @@ public class PasswordFieldTableCell<S, T> extends TableCell<S, T> {
 		
 		
 
-		menuItemCopy.setOnAction(evt -> {
-			
-			//TODO Modal to request password.
-			
-			Clipboard clipboard = Clipboard.getSystemClipboard();
-			ClipboardContent content = new ClipboardContent();
-			content.putString(password.getText());
-			clipboard.setContent(content);
-			
-			
-			Tooltip toolTip = new Tooltip("Copied!");
-			toolTip.setTextAlignment(TextAlignment.RIGHT);
-			
+		menuItemCopy.setOnAction(evt -> {			
+			canProceed.accept(value -> {
+				if(value) {
+					job = Executors.newSingleThreadScheduledExecutor();
 										
-			password.setTooltip(toolTip);
-			
-			Scene scene = password.getScene();
-			Window window = password.getScene().getWindow();			
-			Point2D coordination = password.localToScene(0.0, 0.0);			
-			Double x = coordination.getX();
-			Double y = coordination.getY();			
-			x += scene.getX() + window.getX() + 62;
-			y += scene.getY() + window.getY();						
-			
-			
-			toolTip.show(password,x,y);			
-			job.schedule(() -> {
-				Platform.runLater(() -> toolTip.hide());
-			},1,TimeUnit.SECONDS);
-			job.shutdown();
+					Clipboard clipboard = Clipboard.getSystemClipboard();
+					ClipboardContent content = new ClipboardContent();
+					content.putString(password.getText());
+					clipboard.setContent(content);
+					
+					
+					Tooltip toolTip = new Tooltip("Copied!");
+					toolTip.setTextAlignment(TextAlignment.RIGHT);
+					
+												
+					password.setTooltip(toolTip);
+					
+					Scene scene = password.getScene();
+					Window window = password.getScene().getWindow();			
+					Point2D coordination = password.localToScene(0.0, 0.0);			
+					Double x = coordination.getX();
+					Double y = coordination.getY();			
+					x += scene.getX() + window.getX() + 62;
+					y += scene.getY() + window.getY();						
+					
+					
+					toolTip.show(password,x,y);			
+					job.schedule(() -> {
+						Platform.runLater(() -> toolTip.hide());
+					},1,TimeUnit.SECONDS);
+					job.shutdown();
+				}
+			});
 			
 		});
 	

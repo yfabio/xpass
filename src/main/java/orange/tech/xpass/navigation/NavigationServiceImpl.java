@@ -11,7 +11,10 @@ import orange.tech.xpass.controller.HomeController;
 import orange.tech.xpass.controller.KeyController;
 import orange.tech.xpass.controller.LoginController;
 import orange.tech.xpass.controller.MainController;
+import orange.tech.xpass.controller.ProceedModalController;
+import orange.tech.xpass.controller.DeleteModalController;
 import orange.tech.xpass.controller.RegisterController;
+import orange.tech.xpass.modal.DeleteModal;
 import orange.tech.xpass.navigation.FxLoader.Url;
 
 @Service
@@ -40,6 +43,10 @@ public class NavigationServiceImpl implements NavigationService {
 			return fxLoader.load(Url.REGISTER, obj);
 		}else if(controller.equals(MainController.class)) {
 			return fxLoader.load(Url.MAIN, obj);
+		}else if(controller.equals(DeleteModalController.class)) {
+			return fxLoader.load(Url.RM, obj);
+		}else if(controller.equals(ProceedModalController.class)) {
+			return fxLoader.load(Url.PM, obj);
 		}
 		
 		throw new RuntimeException(String.format("No such controller %s found!",controller.getName()));
