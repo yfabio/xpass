@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,15 +29,9 @@ public class HomeController extends BaseController  {
 	@FXML
 	private Accordion filter;
 	@FXML
-	private TextField search;
+	private TextField txtSearch;
 	@FXML
-	private Button searchBtn;
-	@FXML
-	private DatePicker dateFrom;
-	@FXML
-	private DatePicker dateTo;
-	@FXML
-	private Button apply;
+	private Button btnSearch;
 
 	@FXML
 	private TableView<Key> keys;
@@ -82,7 +75,16 @@ public class HomeController extends BaseController  {
 
 		keys.setItems(list);
 		keys.getColumns().addAll(List.of(passwordColumn, editColumn, deleteColumn));
+		
+		btnSearch.setOnAction(evt -> onSearchHandled());
+		txtSearch.setOnAction(evt -> onSearchHandled());
+		
+		
+	}
 
+	private void onSearchHandled() {
+		txtSearch.clear();
+		System.out.println("search was done!");
 	}
 
 	

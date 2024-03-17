@@ -158,11 +158,6 @@
 	-fx-min-width: 60;	
 }
 
-.home_date_search {
-	-fx-min-height: 100;
-	-fx-vgap: 5;
-}
-
 .home_date_search_button {
 	-fx-background-color: -fx-first;
 	-fx-text-fill: #fff;

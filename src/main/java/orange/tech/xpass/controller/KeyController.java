@@ -8,7 +8,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.springframework.stereotype.Component;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
