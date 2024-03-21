@@ -72,7 +72,11 @@ public class HomeController extends BaseController  {
 		TableColumn<Key, Void> deleteColumn = new TableColumn<>("Delete");
 		deleteColumn.setCellFactory(c -> new ActionTableCell<>(FontAwesomeSolid.TRASH, key -> {
 			OnModalAction action = ctx.getBean(MainController.class);
-			action.delete(key, () -> keys.getItems().remove(key));
+			action.delete(key, () -> {
+				var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);
+				keyRepository.delete(value);
+				keys.getItems().remove(key);				
+			});
 		}));
 
 		keys.setItems(FXCollections.observableArrayList(mapped));
