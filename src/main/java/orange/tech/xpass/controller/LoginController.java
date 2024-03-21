@@ -5,17 +5,20 @@ import java.util.ResourceBundle;
 
 import org.springframework.stereotype.Component;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import orange.tech.xpass.exception.ApplicationException;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
-import orange.tech.xpass.repository.PersonRepository;
+import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
 public class LoginController extends BaseController {
@@ -31,48 +34,57 @@ public class LoginController extends BaseController {
 
 	private FxLoader fxLoader;
 	
-	private PersonRepository personRepository;
+	private ApplicationLoggedUser applicationLoggedUser;
 
-	public LoginController(FxLoader fxLoader,PersonRepository personRepository) {
+	public LoginController(FxLoader fxLoader,ApplicationLoggedUser applicationLoggedUser) {
+		this.applicationLoggedUser = applicationLoggedUser;		
 		this.fxLoader = fxLoader;
-		this.personRepository = personRepository;
 	}
 
 	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		login.setOnAction(evt -> {
-			try {
-				Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+	public void initialize(URL url, ResourceBundle rb) {			
+		register.setOnMouseClicked(evt -> onRegisterHandler(evt));		
+		login.setOnAction(evt -> onLoginHandler(evt));
+	}
 
-				Pane root = fxLoader.load(Url.MAIN, null).navigate();
+	private void onRegisterHandler(MouseEvent evt) {
+		try {
+			Stage stage = (Stage) ((Label) evt.getSource()).getScene().getWindow();
 
-				Scene scene = new Scene(root);
+			Pane root = fxLoader.load(Url.REGISTER, null).navigate();
 
-				stage.setScene(scene);
-				stage.centerOnScreen();
-				stage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
+			Scene scene = new Scene(root);
 
-		register.setOnMouseClicked(evt -> {
-			try {
-				Stage stage = (Stage) ((Label) evt.getSource()).getScene().getWindow();
+			stage.setScene(scene);
+			stage.centerOnScreen();
+			stage.show();
+		} catch (Exception e) {
+			//TODO feedback error load register
+		}
+	}
 
-				Pane root = fxLoader.load(Url.REGISTER, null).navigate();
-
-				Scene scene = new Scene(root);
-
-				stage.setScene(scene);
-				stage.centerOnScreen();
-				stage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
+	private void onLoginHandler(ActionEvent evt) {			
 		
-		personRepository.findAll().forEach(e -> System.out.println(e));
+		try {
+			
+			applicationLoggedUser.tryFindUsername(username.getText());
+			applicationLoggedUser.tryFindPassword(password.getText());
+			
+			Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+
+			Pane root = fxLoader.load(Url.MAIN, null).navigate();
+
+			Scene scene = new Scene(root);
+
+			stage.setScene(scene);
+			stage.centerOnScreen();
+			stage.show();
+			
+		} catch (ApplicationException e) {
+			//TODO feedback user login 
+			System.out.println(e.getMessage());
+		}
+		
 		
 	}
 

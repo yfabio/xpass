@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javafx.event.ActionEvent;
@@ -60,27 +61,32 @@ public class RegisterController extends BaseController {
 		
 		var pwdOne = password.getText();
 		var pwdTwo = confirmPassword.getText();
-			
-		if(pwdOne.equals(pwdTwo)) {		
-						
-			var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
-			
+		
+		if(!pwdOne.equals(pwdTwo)) {return;}
+		
+		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
+		
+		try {
 			personRepository.save(value);
-			
-			try {
-				Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+		} catch (DataIntegrityViolationException e) {
+			System.out.println(e.getMessage());
+			//TODO feedback user already exist username.
+		}
+		
+		
+		
+		try {
+			Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
 
-				Pane root = fxLoader.load(Url.LOGIN, null).navigate();
+			Pane root = fxLoader.load(Url.LOGIN, null).navigate();
 
-				Scene scene = new Scene(root);
+			Scene scene = new Scene(root);
 
-				stage.setScene(scene);
-				stage.centerOnScreen();
-				stage.show();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+			stage.setScene(scene);
+			stage.centerOnScreen();
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		

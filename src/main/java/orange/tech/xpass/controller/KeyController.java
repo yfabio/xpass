@@ -8,6 +8,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.NavigationService;
 import orange.tech.xpass.property.Key;
 import orange.tech.xpass.repository.KeyRepository;
-import orange.tech.xpass.repository.PersonRepository;
+import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
 public class KeyController extends BaseController implements CallBackController<Key> {
@@ -81,14 +82,17 @@ public class KeyController extends BaseController implements CallBackController<
 	private Builder builder = PasswordBuilder.getInstance();
 
 	private ModelMapper modelMapper;
+
+	private ApplicationLoggedUser applicationLoggedUser;
 	
 	public KeyController(NavigationService navigationService, 
 			KeyRepository keyRepository,
 			ModelMapper modelMapper,
-			PersonRepository personRepository) {
+			ApplicationLoggedUser applicationLoggedUser) {
 		this.navigationService = navigationService;
 		this.keyRepository = keyRepository;
-		this.modelMapper = modelMapper;			
+		this.modelMapper = modelMapper;
+		this.applicationLoggedUser = applicationLoggedUser;
 	}
 
 	@Override
@@ -110,17 +114,16 @@ public class KeyController extends BaseController implements CallBackController<
 		});
 
 		generate.setOnAction(evt -> generatePassword());
-
 		save.setOnAction(evt -> onSaveHandler());
-		
 		
 	}
 
 	private void onSaveHandler() {
 		var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);	
-		
-		
+		value.setPerson(applicationLoggedUser.loggedUser());		
 		keyRepository.save(value);
+		key.reset();
+		Platform.runLater(date::requestFocus);
 	}
 
 	private void generatePassword() {

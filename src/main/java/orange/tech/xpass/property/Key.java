@@ -99,6 +99,13 @@ public class Key {
 		setUsername(key.getUsername());
 		setPassword(key.getPassword());
 	}
+	
+	public void reset() {
+		date.set(null);
+		note.set("");
+		username.set("");
+		password.set("");		
+	}
 
 	@Override
 	public String toString() {

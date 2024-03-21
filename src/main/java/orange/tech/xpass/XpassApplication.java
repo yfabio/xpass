@@ -20,5 +20,5 @@ public class XpassApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}	
-
+	
 }
