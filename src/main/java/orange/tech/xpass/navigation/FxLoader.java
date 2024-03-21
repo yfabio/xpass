@@ -44,7 +44,8 @@ public class FxLoader {
 	public FxLoader(ApplicationContext ctx) {
 		this.ctx = ctx;
 	}
-		
+	
+	@SuppressWarnings("unchecked")
 	public <T> Navigator load(Url url,Supplier<T> obj)  {
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(FxLoader.class.getResource(url.getPath()));
@@ -60,8 +61,8 @@ public class FxLoader {
 					});
 					pane = fxmlLoader.load();					
 					Object controller = fxmlLoader.getController();
-					if(controller instanceof CallBackController && obj != null) {						
-						CallBackController<T> callback = (CallBackController<T>) controller;
+					if(controller instanceof CallBackController && obj != null) {
+						CallBackController<T> callback = CallBackController.class.cast(controller);
 						callback.content(obj);
 					}
 					

@@ -89,6 +89,8 @@ public class HomeController extends BaseController  {
 					
 		txtSearch.setOnKeyReleased(evt -> onSearchHandled());
 		
+		
+		
 	}
 
 	private void onSearchHandled() {			

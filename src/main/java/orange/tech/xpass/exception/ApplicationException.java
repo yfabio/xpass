@@ -12,6 +12,10 @@ public class ApplicationException extends RuntimeException {
 		super(message);		
 	}
 
+	public ApplicationException(Throwable cause) {
+		super(cause);	
+	}
+
 	
 	
 }

@@ -32,7 +32,11 @@ public class ApplicationLoggedUserImpl implements ApplicationLoggedUser {
 		loggedUser = personRepository.findByPassword(password).orElseThrow(() -> new ApplicationException("password was invalid"));		
 	}
 
-	
+	@Override
+	public void replace(Person person) {
+		loggedUser = person;		
+	}
+
 	
 	
 		

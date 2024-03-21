@@ -1,5 +1,7 @@
 package orange.tech.xpass.property;
 
+import java.util.Optional;
+
 import jakarta.persistence.Column;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
@@ -8,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+import orange.tech.xpass.util.ImageUtil;
 
 
 public class Person {
@@ -22,7 +25,7 @@ public class Person {
 
 	private ObjectProperty<Image> image = new SimpleObjectProperty<>();
 
-	private Byte[] photo;
+	private byte[] photo;
 	
 	public LongProperty idProperty() {
 		return this.id;
@@ -87,13 +90,17 @@ public class Person {
 		this.imageProperty().set(photo);
 	}
 
-	public Byte[] getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
 
-	public void setPhoto(Byte[] photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
+		Optional<Image> op = ImageUtil.byteArrayToImage(photo);
+		if(op.isPresent()) {
+			setImage(op.get());
+		}
 	}
 
 
