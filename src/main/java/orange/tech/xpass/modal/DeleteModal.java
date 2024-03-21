@@ -48,9 +48,4 @@ public class DeleteModal implements Modal {
 		deleteModalController.cancel.setOnAction(evt -> cmd.execute());		
 	}
 
-	
-	
-		
-	
-
 }

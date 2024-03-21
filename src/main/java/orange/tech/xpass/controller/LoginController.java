@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -45,6 +46,7 @@ public class LoginController extends BaseController {
 	public void initialize(URL url, ResourceBundle rb) {			
 		register.setOnMouseClicked(evt -> onRegisterHandler(evt));		
 		login.setOnAction(evt -> onLoginHandler(evt));
+		password.setOnAction(evt -> onLoginHandler(evt));
 	}
 
 	private void onRegisterHandler(MouseEvent evt) {
@@ -70,7 +72,7 @@ public class LoginController extends BaseController {
 			applicationLoggedUser.tryFindUsername(username.getText());
 			applicationLoggedUser.tryFindPassword(password.getText());
 			
-			Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+			Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 
 			Pane root = fxLoader.load(Url.MAIN, null).navigate();
 

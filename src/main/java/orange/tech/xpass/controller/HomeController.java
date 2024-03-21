@@ -10,10 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,8 +29,6 @@ public class HomeController extends BaseController  {
 	private Accordion filter;
 	@FXML
 	private TextField txtSearch;
-	@FXML
-	private Button btnSearch;
 
 	@FXML
 	private TableView<Key> keys;
@@ -60,9 +56,7 @@ public class HomeController extends BaseController  {
 		var col  = keyRepository.findAll();
 		
 		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
-											 		
-		ObservableList<Key> list = FXCollections.observableArrayList(mapped);
-		
+						
 		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");
 		passwordColumn.setCellFactory(c -> new PasswordFieldTableCell<>(canProceed -> {
 			OnModalAction action = ctx.getBean(MainController.class);	
@@ -81,23 +75,22 @@ public class HomeController extends BaseController  {
 			action.delete(key, () -> keys.getItems().remove(key));
 		}));
 
-		keys.setItems(list);
+		keys.setItems(FXCollections.observableArrayList(mapped));
 		keys.getColumns().addAll(List.of(passwordColumn, editColumn, deleteColumn));
+		keys.setEditable(true);
 		
-		btnSearch.setOnAction(evt -> onSearchHandled());
-		txtSearch.setOnAction(evt -> onSearchHandled());
-		
+		keys.getColumns().get(1).setOnEditCommit(evt -> {
+			System.out.println(evt.getRowValue());
+		});
+					
+		txtSearch.setOnKeyReleased(evt -> onSearchHandled());
 		
 	}
 
-	private void onSearchHandled() {
-		txtSearch.clear();
-		
-		//TODO search in the database
-		
-	
-		
-			
+	private void onSearchHandled() {			
+		var col = keyRepository.findByNoteContainsOrUsernameContains(txtSearch.getText(), txtSearch.getText());	
+		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
+		keys.setItems(FXCollections.observableArrayList(mapped));	
 	}
 
 	
