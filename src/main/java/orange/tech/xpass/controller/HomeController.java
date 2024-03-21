@@ -1,11 +1,11 @@
 package orange.tech.xpass.controller;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import orange.tech.xpass.entity.Key;
 import orange.tech.xpass.fx.ActionTableCell;
 import orange.tech.xpass.fx.PasswordFieldTableCell;
 import orange.tech.xpass.modal.OnModalAction;
 import orange.tech.xpass.navigation.NavigationService;
+import orange.tech.xpass.property.Key;
+import orange.tech.xpass.repository.KeyRepository;
 
 @Component
 public class HomeController extends BaseController  {
@@ -39,22 +40,29 @@ public class HomeController extends BaseController  {
 	private NavigationService navigationService;
 	
 	private ApplicationContext ctx;
+	
+	private KeyRepository keyRepository;
+	
+	private ModelMapper modelMapper;
 			
-	public HomeController(NavigationService navigationService,ApplicationContext ctx) {
+	public HomeController(NavigationService navigationService,
+			ApplicationContext ctx,KeyRepository keyRepository,
+			ModelMapper modelMapper) {
 		this.navigationService = navigationService;		
 		this.ctx = ctx;
+		this.keyRepository = keyRepository;		
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-
-		ObservableList<Key> list = FXCollections.observableArrayList();
-
-		list.add(new Key(1, LocalDate.now(), "Note 1", "user-1", "abc@123"));
-		list.add(new Key(2, LocalDate.now(), "Note 2", "user-2", "xyz@123"));
-		list.add(new Key(3, LocalDate.now(), "Note 3", "user-3", "ksakh"));
-		list.add(new Key(4, LocalDate.now(), "Note 4", "user-4", "19sng"));
-
+		
+		var col  = keyRepository.findAll();
+		
+		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
+											 		
+		ObservableList<Key> list = FXCollections.observableArrayList(mapped);
+		
 		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");
 		passwordColumn.setCellFactory(c -> new PasswordFieldTableCell<>(canProceed -> {
 			OnModalAction action = ctx.getBean(MainController.class);	
@@ -84,7 +92,12 @@ public class HomeController extends BaseController  {
 
 	private void onSearchHandled() {
 		txtSearch.clear();
-		System.out.println("search was done!");
+		
+		//TODO search in the database
+		
+	
+		
+			
 	}
 
 	

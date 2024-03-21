@@ -1,109 +1,96 @@
 package orange.tech.xpass.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-public class Key {
+@Entity
+@Table(name = "keys")
+public class Key implements Serializable {
 
-	private LongProperty id = new SimpleLongProperty();
+	private static final long serialVersionUID = 1L;
 
-	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
-
-	private StringProperty note = new SimpleStringProperty();
-
-	private StringProperty username = new SimpleStringProperty();
-
-	private StringProperty password = new SimpleStringProperty();
-
-	public Key() {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+		
+	private LocalDate date;
+	
+	@Column(length = 150)	
+	private String note;
+	
+	@Column(length = 100)	
+	private String username; 
+	
+	@Column(length = 68)	
+	private String password;
+	
+	@ManyToOne
+	@JoinColumn(name = "person_id")
+	private Person person;
+	
+	public Long getId() {
+		return id;
 	}
 
-	public Key(int id,LocalDate date, String note, String username, String password) {
-		this.id.set(id);
-		this.date.set(date);
-		this.note.set(note);
-		this.username.set(username);
-		this.password.set(password);
-	}
-
-	public LongProperty idProperty() {
-		return this.id;
-	}
-
-	public long getId() {
-		return this.idProperty().get();
-	}
-
-	public void setId(final long id) {
-		this.idProperty().set(id);
-	}
-
-	public ObjectProperty<LocalDate> dateProperty() {
-		return this.date;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public LocalDate getDate() {
-		return this.dateProperty().get();
+		return date;
 	}
 
-	public void setDate(final LocalDate date) {
-		this.dateProperty().set(date);
-	}
-
-	public StringProperty noteProperty() {
-		return this.note;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public String getNote() {
-		return this.noteProperty().get();
+		return note;
 	}
 
-	public void setNote(final String note) {
-		this.noteProperty().set(note);
-	}
-
-	public StringProperty usernameProperty() {
-		return this.username;
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public String getUsername() {
-		return this.usernameProperty().get();
+		return username;
 	}
 
-	public void setUsername(final String username) {
-		this.usernameProperty().set(username);
-	}
-
-	public StringProperty passwordProperty() {
-		return this.password;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
-		return this.passwordProperty().get();
+		return password;
 	}
 
-	public void setPassword(final String password) {
-		this.passwordProperty().set(password);
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-	public void setData(Key key) {
-		setId(key.getId());
-		setDate(key.getDate());
-		setNote(key.getNote());
-		setUsername(key.getUsername());
-		setPassword(key.getPassword());
+	
+	public Person getPerson() {
+		return person;
 	}
-
+	
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Key [id=" + id.get() + ", date=" + date.get() + ", note=" + note.get() + ", username=" + username.get() + ", password="
-				+ password.get() + "]";
+		return "Key [id=" + id + ", date=" + date + ", note=" + note + ", username=" + username + ", password="
+				+ password + "]";
 	}
-
+	
+	
 }

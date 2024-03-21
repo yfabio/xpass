@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 
 import orange.tech.xpass.controller.BaseController;
 import orange.tech.xpass.controller.ConfigController;
+import orange.tech.xpass.controller.DeleteModalController;
 import orange.tech.xpass.controller.HomeController;
 import orange.tech.xpass.controller.KeyController;
 import orange.tech.xpass.controller.LoginController;
 import orange.tech.xpass.controller.MainController;
 import orange.tech.xpass.controller.ProceedModalController;
-import orange.tech.xpass.controller.DeleteModalController;
 import orange.tech.xpass.controller.RegisterController;
-import orange.tech.xpass.modal.DeleteModal;
 import orange.tech.xpass.navigation.FxLoader.Url;
 
 @Service
@@ -44,9 +43,9 @@ public class NavigationServiceImpl implements NavigationService {
 		}else if(controller.equals(MainController.class)) {
 			return fxLoader.load(Url.MAIN, obj);
 		}else if(controller.equals(DeleteModalController.class)) {
-			return fxLoader.load(Url.RM, obj);
+			return fxLoader.load(Url.DELETE_MODAL, obj);
 		}else if(controller.equals(ProceedModalController.class)) {
-			return fxLoader.load(Url.PM, obj);
+			return fxLoader.load(Url.PROCEED_MODAL, obj);
 		}
 		
 		throw new RuntimeException(String.format("No such controller %s found!",controller.getName()));

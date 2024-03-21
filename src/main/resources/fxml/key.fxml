@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import orange.tech.xpass.fx.PasswordField?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import orange.tech.xpass.entity.Key?>
+<?import orange.tech.xpass.property.Key?>
 <?import orange.tech.xpass.fx.Binder?>
 
 <StackPane stylesheets="@../css/style.css"

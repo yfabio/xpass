@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javafx.beans.binding.Bindings;
@@ -14,26 +15,30 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
-import orange.tech.xpass.entity.Key;
+import orange.tech.xpass.builder.Builder;
+import orange.tech.xpass.builder.PasswordBuilder;
 import orange.tech.xpass.fx.PasswordField;
 import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.NavigationService;
+import orange.tech.xpass.property.Key;
+import orange.tech.xpass.repository.KeyRepository;
+import orange.tech.xpass.repository.PersonRepository;
 
 @Component
 public class KeyController extends BaseController implements CallBackController<Key> {
 
 	@FXML
 	private DatePicker date;
-	
+
 	@FXML
 	private TextField note;
-	
+
 	@FXML
 	private TextField username;
-	
+
 	@FXML
 	private PasswordField password;
-	
+
 	@FXML
 	private Button pwdHide;
 
@@ -71,8 +76,19 @@ public class KeyController extends BaseController implements CallBackController<
 
 	private NavigationService navigationService;
 
-	public KeyController(NavigationService navigationService) {
+	private KeyRepository keyRepository;
+
+	private Builder builder = PasswordBuilder.getInstance();
+
+	private ModelMapper modelMapper;
+	
+	public KeyController(NavigationService navigationService, 
+			KeyRepository keyRepository,
+			ModelMapper modelMapper,
+			PersonRepository personRepository) {
 		this.navigationService = navigationService;
+		this.keyRepository = keyRepository;
+		this.modelMapper = modelMapper;			
 	}
 
 	@Override
@@ -88,17 +104,33 @@ public class KeyController extends BaseController implements CallBackController<
 		cancel.setOnAction(evt -> {
 			navigation.set(navigationService.getNavigator(HomeController.class));
 		});
-				
-		key.idProperty().addListener((obs,x,y) -> {
+
+		key.idProperty().addListener((obs, x, y) -> {
 			save.textProperty().bind(Bindings.when(key.idProperty().greaterThan(0)).then("edit").otherwise("save"));
 		});
+
+		generate.setOnAction(evt -> generatePassword());
+
+		save.setOnAction(evt -> onSaveHandler());
 		
 		
 	}
 
+	private void onSaveHandler() {
+		var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);	
+		
+		
+		keyRepository.save(value);
+	}
+
+	private void generatePassword() {
+		password.setText(builder.length(spinner.getValue()).lower(lowerLetters.isSelected())
+				.upper(upperLetters.isSelected()).number(numbers.isSelected()).symbol(symbols.isSelected()).build());
+	}
+
 	@Override
 	public void content(Supplier<Key> sup) {
-		key.setData(sup.get());		
+		key.setData(sup.get());
 	}
 
 }

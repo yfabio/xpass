@@ -11,10 +11,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import orange.tech.xpass.fx.Binder?>
+<?import orange.tech.xpass.property.Person?>
 
 <StackPane prefHeight="400.0" prefWidth="600.0"
 	stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.RegisterController">
+	<fx:define>
+		<Person fx:id="person"/>
+	</fx:define>
 	<children>
 		<GridPane alignment="CENTER">
 			<columnConstraints>
@@ -29,12 +34,18 @@
 						<Label styleClass="login_title" text="Register" />
 						<Label text="Username" />
 						<TextField fx:id="username" promptText="username" />
+						<fx:define>
+							<Binder o1="$person" p1="username" o2="$username" p2="text" />
+						</fx:define>
 						<Label text="Password" />
 						<PasswordField fx:id="password"
 							promptText="password" />
+						<fx:define>
+							<Binder o1="$person" p1="password" o2="$password" p2="text" />
+						</fx:define>	
 						<Label text="Confirm Password" />
 						<PasswordField fx:id="confirmPassword"
-							promptText="confirm password" />
+							promptText="confirm password" />						
 						<AnchorPane>
 							<children>
 								<Button fx:id="register" layoutX="200.0" layoutY="12.0"

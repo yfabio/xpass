@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
+import orange.tech.xpass.repository.PersonRepository;
 
 @Component
 public class LoginController extends BaseController {
@@ -29,9 +30,12 @@ public class LoginController extends BaseController {
 	private Label register;
 
 	private FxLoader fxLoader;
+	
+	private PersonRepository personRepository;
 
-	public LoginController(FxLoader fxLoader) {
+	public LoginController(FxLoader fxLoader,PersonRepository personRepository) {
 		this.fxLoader = fxLoader;
+		this.personRepository = personRepository;
 	}
 
 	@Override
@@ -67,6 +71,9 @@ public class LoginController extends BaseController {
 				e.printStackTrace();
 			}
 		});
+		
+		personRepository.findAll().forEach(e -> System.out.println(e));
+		
 	}
 
 }

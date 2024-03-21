@@ -1,0 +1,10 @@
+package orange.tech.xpass.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import orange.tech.xpass.entity.Person;
+
+
+
+public interface PersonRepository extends JpaRepository<Person, Long> {
+}

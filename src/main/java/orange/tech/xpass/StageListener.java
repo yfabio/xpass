@@ -20,7 +20,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
 
 	private Resource resource;
 	private ApplicationContext ctx;
-
+	
 	@Autowired
 	public StageListener(@Value("classpath:/fxml/login.fxml") Resource resource, ApplicationContext ctx) {
 		this.resource = resource;

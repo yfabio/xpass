@@ -11,13 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import orange.tech.xpass.command.Command;
-import orange.tech.xpass.entity.Key;
 import orange.tech.xpass.fx.PlaceHolder;
 import orange.tech.xpass.modal.Modal;
 import orange.tech.xpass.modal.ModalFactory;
 import orange.tech.xpass.modal.ModalOption;
 import orange.tech.xpass.modal.OnModalAction;
 import orange.tech.xpass.navigation.NavigationService;
+import orange.tech.xpass.property.Key;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 
@@ -102,13 +102,5 @@ public class MainController extends BaseController implements OnModalAction  {
 		});		
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

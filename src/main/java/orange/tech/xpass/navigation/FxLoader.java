@@ -22,8 +22,8 @@ public class FxLoader {
 		HOME("/fxml/home.fxml"), 
 		KEY("/fxml/key.fxml"), 
 		CONFIG("/fxml/config.fxml"), 
-		RM("/fxml/deleteModal.fxml"),
-		PM("/fxml/proceedModal.fxml"); 
+		DELETE_MODAL("/fxml/deleteModal.fxml"),
+		PROCEED_MODAL("/fxml/proceedModal.fxml"); 
 		
 		
 		private String path;
@@ -44,9 +44,7 @@ public class FxLoader {
 	public FxLoader(ApplicationContext ctx) {
 		this.ctx = ctx;
 	}
-	
-	
-	@SuppressWarnings("unchecked")
+		
 	public <T> Navigator load(Url url,Supplier<T> obj)  {
 		
 		FXMLLoader fxmlLoader = new FXMLLoader(FxLoader.class.getResource(url.getPath()));
