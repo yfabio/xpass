@@ -106,7 +106,7 @@
 											<children>
 												<Label text="Password Length"
 													StackPane.alignment="CENTER_LEFT" />
-												<Spinner fx:id="spinner"
+												<Spinner fx:id="spinner" editable="true"
 													StackPane.alignment="CENTER_RIGHT">
 													<valueFactory>
 														<SpinnerValueFactory.IntegerSpinnerValueFactory

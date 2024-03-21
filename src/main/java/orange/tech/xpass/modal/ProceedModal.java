@@ -42,11 +42,14 @@ public class ProceedModal implements Modal {
 
 	@Override
 	public void done(Command cmd) {
-		proceedModalController.ok.setOnAction(evt -> {
-			if(proceedModalController.passwordMatch()) {
-				cmd.execute();
-			}
-		});	
+		proceedModalController.ok.setOnAction(evt -> onPasswordMatch(cmd));
+		proceedModalController.password.setOnAction(evt -> onPasswordMatch(cmd));
+	}
+
+	private void onPasswordMatch(Command cmd) {
+		if(proceedModalController.passwordMatch()) {
+			cmd.execute();
+		}
 	}
 
 	@Override

@@ -99,7 +99,8 @@ public class HomeController extends BaseController  {
 	}
 
 	private void onSearchHandled() {			
-		var col = keyRepository.findByNoteContainsOrUsernameContains(txtSearch.getText(), txtSearch.getText());	
+		var col = keyRepository.listPersonKeys(txtSearch.getText(),
+				applicationLoggedUser.loggedUser().getId());	
 		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
 		keys.setItems(FXCollections.observableArrayList(mapped));	
 	}
