@@ -69,9 +69,9 @@ public class LoginController extends BaseController {
 		
 		try {
 			
-			applicationLoggedUser.tryFindUsername(username.getText());
-			applicationLoggedUser.tryFindPassword(password.getText());
-			
+			applicationLoggedUser.tryLogin(username.getText(),
+					password.getText());
+						
 			Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 
 			Pane root = fxLoader.load(Url.MAIN, null).navigate();

@@ -5,7 +5,6 @@ import orange.tech.xpass.exception.ApplicationException;
 
 public interface ApplicationLoggedUser {
 	Person loggedUser();
-	void replace(Person person);
-	void tryFindUsername(String username) throws ApplicationException;
-	void tryFindPassword(String password) throws ApplicationException;
+	void replace(Person person);	
+	void tryLogin(String username, String password)throws ApplicationException;;
 }

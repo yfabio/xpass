@@ -17,9 +17,11 @@ public class ProceedModal implements Modal {
 	
 	private ProceedModalController proceedModalController;
 	
-	public ProceedModal(NavigationService navigationService, ProceedModalController proceedModalController) {
+	public ProceedModal(NavigationService navigationService,
+			ProceedModalController proceedModalController) {
 		this.navigationService = navigationService;
 		this.proceedModalController = proceedModalController;
+		
 	}
 
 	@Override

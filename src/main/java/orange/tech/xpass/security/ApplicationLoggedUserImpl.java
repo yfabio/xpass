@@ -22,19 +22,28 @@ public class ApplicationLoggedUserImpl implements ApplicationLoggedUser {
 		return loggedUser;
 	}
 
-	@Override
-	public void tryFindUsername(String username) throws ApplicationException {
-		personRepository.findByUsername(username).orElseThrow(() -> new ApplicationException("username was invalid."));
+
+	private Person tryFindUsername(String username) throws ApplicationException {
+		return personRepository.findByUsername(username).orElseThrow(() -> new ApplicationException("username was invalid."));
 	}
 
-	@Override
-	public void tryFindPassword(String password) throws ApplicationException {
+	
+	private void tryFindPassword(String password) throws ApplicationException {
 		loggedUser = personRepository.findByPassword(password).orElseThrow(() -> new ApplicationException("password was invalid"));		
 	}
 
 	@Override
 	public void replace(Person person) {
 		loggedUser = person;		
+	}
+
+	@Override
+	public void tryLogin(String username, String password) throws ApplicationException {
+		var person =  tryFindUsername(username);
+		tryFindPassword(password);
+		if(!person.equals(loggedUser)) {
+			throw new ApplicationException("credential was invalid.");
+		}
 	}
 
 	

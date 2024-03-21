@@ -21,6 +21,7 @@ import orange.tech.xpass.modal.OnModalAction;
 import orange.tech.xpass.navigation.NavigationService;
 import orange.tech.xpass.property.Key;
 import orange.tech.xpass.repository.KeyRepository;
+import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
 public class HomeController extends BaseController  {
@@ -40,20 +41,24 @@ public class HomeController extends BaseController  {
 	private KeyRepository keyRepository;
 	
 	private ModelMapper modelMapper;
+	
+	private ApplicationLoggedUser applicationLoggedUser;
 			
 	public HomeController(NavigationService navigationService,
 			ApplicationContext ctx,KeyRepository keyRepository,
+			ApplicationLoggedUser applicationLoggedUser,
 			ModelMapper modelMapper) {
 		this.navigationService = navigationService;		
 		this.ctx = ctx;
-		this.keyRepository = keyRepository;		
+		this.keyRepository = keyRepository;
+		this.applicationLoggedUser = applicationLoggedUser;
 		this.modelMapper = modelMapper;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		
-		var col  = keyRepository.findAll();
+		var col  = keyRepository.findAllByPerson(applicationLoggedUser.loggedUser());
 		
 		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
 						
