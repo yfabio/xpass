@@ -70,7 +70,7 @@ public class RegisterController extends BaseController {
 		if (!pwdOne.equals(pwdTwo)) {
 			return;
 		}
-
+		
 		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
 
 		try {

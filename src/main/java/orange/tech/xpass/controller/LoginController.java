@@ -69,8 +69,7 @@ public class LoginController extends BaseController {
 		
 		try {
 			
-			applicationLoggedUser.tryLogin(username.getText(),
-					password.getText());
+			applicationLoggedUser.tryLogin(username.getText(),password.getText());
 						
 			Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 

@@ -23,13 +23,13 @@ public class ApplicationLoggedUserImpl implements ApplicationLoggedUser {
 	}
 
 
-	private Person tryFindUsername(String username) throws ApplicationException {
-		return personRepository.findByUsername(username).orElseThrow(() -> new ApplicationException("username was invalid."));
+	private void tryFindUsername(String username) throws ApplicationException {
+		personRepository.findByUsername(username).orElseThrow(() -> new ApplicationException("username was invalid."));
 	}
 
 	
-	private void tryFindPassword(String password) throws ApplicationException {
-		loggedUser = personRepository.findByPassword(password).orElseThrow(() -> new ApplicationException("password was invalid"));		
+	private void tryFindPassword(String password,String username) throws ApplicationException {
+		loggedUser = personRepository.findPasswordByPerson(password, username).orElseThrow(() -> new ApplicationException("password was invalid"));		
 	}
 
 	@Override
@@ -39,11 +39,8 @@ public class ApplicationLoggedUserImpl implements ApplicationLoggedUser {
 
 	@Override
 	public void tryLogin(String username, String password) throws ApplicationException {
-		var person =  tryFindUsername(username);
-		tryFindPassword(password);
-		if(!person.equals(loggedUser)) {
-			throw new ApplicationException("credential was invalid.");
-		}
+		tryFindUsername(username);
+		tryFindPassword(password,username);		
 	}
 
 	
