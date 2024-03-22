@@ -126,8 +126,8 @@ public class MainController extends BaseController implements OnModalAction, OnU
 
 	@Override
 	public void update(Person p) {
-		profile.setImage(p.getImage());
-		email.setText(p.getUsername());
+		profile.imageProperty().bindBidirectional(p.imageProperty());
+		email.textProperty().bindBidirectional(p.usernameProperty());
 	}
 
 }

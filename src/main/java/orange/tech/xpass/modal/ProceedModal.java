@@ -47,7 +47,7 @@ public class ProceedModal implements Modal {
 	}
 
 	private void onPasswordMatch(Command cmd) {
-		if(proceedModalController.passwordMatch()) {
+		if(proceedModalController.doesPasswordMatch()) {
 			cmd.execute();
 		}
 	}
