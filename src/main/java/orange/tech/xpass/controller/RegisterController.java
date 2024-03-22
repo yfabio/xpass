@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -32,51 +33,61 @@ public class RegisterController extends BaseController {
 	@FXML
 	private Button register;
 	
-	@FXML 
+	@FXML
+	private Button cancel;
+
+	@FXML
 	private Person person;
-	
+
 	private FxLoader fxLoader;
-	
+
 	private PersonRepository personRepository;
-	
+
 	private ModelMapper modelMapper;
 	
-		
-	public RegisterController(FxLoader fxLoader,
-			PersonRepository personRepository,
-			ModelMapper modelMapper) {
+
+	public RegisterController(FxLoader fxLoader, PersonRepository personRepository, ModelMapper modelMapper) {
 		this.fxLoader = fxLoader;
 		this.personRepository = personRepository;
 		this.modelMapper = modelMapper;
 	}
 
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle rb) {
-		register.setOnAction(evt -> onRegisterHandler(evt));		
+		register.setOnAction(evt -> onRegisterHandler(evt));
+		cancel.setOnAction(evt -> onCancelHandler(evt));
 	}
 
+	private void onCancelHandler(ActionEvent evt) {
+		login(evt);
+	}
 
 	private void onRegisterHandler(ActionEvent evt) {
-		
+
 		var pwdOne = password.getText();
 		var pwdTwo = confirmPassword.getText();
-		
-		if(!pwdOne.equals(pwdTwo)) {return;}
-		
+
+		if (!pwdOne.equals(pwdTwo)) {
+			return;
+		}
+
 		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
-		
+
 		try {
 			personRepository.save(value);
+			login(evt);
 		} catch (DataIntegrityViolationException e) {
 			System.out.println(e.getMessage());
-			//TODO feedback user already exist username.
+			// TODO feedback user already exist username.
 		}
+
 		
-		
-		
+
+	}
+
+	private void login(ActionEvent evt) {
 		try {
-			Stage stage = (Stage) ((Button) evt.getSource()).getScene().getWindow();
+			Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 
 			Pane root = fxLoader.load(Url.LOGIN, null).navigate();
 
@@ -88,12 +99,6 @@ public class RegisterController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 
-	
-
-	
 }

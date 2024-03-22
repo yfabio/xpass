@@ -86,16 +86,13 @@ public class HomeController extends BaseController  {
 
 		keys.setItems(FXCollections.observableArrayList(mapped));
 		keys.getColumns().addAll(List.of(passwordColumn, editColumn, deleteColumn));
-		keys.setEditable(true);
-		
+				
 		keys.getColumns().get(1).setOnEditCommit(evt -> {
 			System.out.println(evt.getRowValue());
 		});
 					
 		txtSearch.setOnKeyReleased(evt -> onSearchHandled());
-		
-		
-		
+				
 	}
 
 	private void onSearchHandled() {			

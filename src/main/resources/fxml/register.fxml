@@ -15,10 +15,10 @@
 <?import orange.tech.xpass.property.Person?>
 
 <StackPane prefHeight="400.0" prefWidth="600.0"
-	stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1"
+	stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1"	
 	fx:controller="orange.tech.xpass.controller.RegisterController">
 	<fx:define>
-		<Person fx:id="person"/>
+		<Person fx:id="person" />
 	</fx:define>
 	<children>
 		<GridPane alignment="CENTER">
@@ -35,24 +35,54 @@
 						<Label text="Username" />
 						<TextField fx:id="username" promptText="username" />
 						<fx:define>
-							<Binder o1="$person" p1="username" o2="$username" p2="text" />
+							<Binder o1="$person" o2="$username" p1="username"
+								p2="text" />
 						</fx:define>
 						<Label text="Password" />
 						<PasswordField fx:id="password"
 							promptText="password" />
 						<fx:define>
-							<Binder o1="$person" p1="password" o2="$password" p2="text" />
-						</fx:define>	
+							<Binder o1="$person" o2="$password" p1="password"
+								p2="text" />
+						</fx:define>
 						<Label text="Confirm Password" />
 						<PasswordField fx:id="confirmPassword"
-							promptText="confirm password" />						
+							promptText="confirm password" />
 						<AnchorPane>
 							<children>
-								<Button fx:id="register" layoutX="200.0" layoutY="12.0"
-									mnemonicParsing="false" styleClass="login_button"
-									text="register" AnchorPane.bottomAnchor="0.0"
+								<GridPane hgap="5.0" prefHeight="32.666666666666664"
+									prefWidth="384.0" AnchorPane.bottomAnchor="0.0"
 									AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-									AnchorPane.topAnchor="0.0" />
+									AnchorPane.topAnchor="0.0">
+									<columnConstraints>
+										<ColumnConstraints hgrow="SOMETIMES"
+											minWidth="10.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											minWidth="10.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<AnchorPane>
+											<children>
+												<Button fx:id="register" mnemonicParsing="false"
+													styleClass="login_button" text="register"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+										<AnchorPane GridPane.columnIndex="1">
+											<children>
+												<Button fx:id="cancel" mnemonicParsing="false"
+													styleClass="login_button" text="cancel"
+													AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+													AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+											</children>
+										</AnchorPane>
+									</children>
+								</GridPane>
 							</children>
 							<VBox.margin>
 								<Insets top="10.0" />

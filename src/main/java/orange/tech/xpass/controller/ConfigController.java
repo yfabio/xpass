@@ -74,12 +74,12 @@ public class ConfigController extends BaseController {
 		person.emailProperty().bindBidirectional(mappedPerson.emailProperty());		
 		person.usernameProperty().bindBidirectional(mappedPerson.usernameProperty());
 		person.imageProperty().bindBidirectional(mappedPerson.imageProperty());
-		person.passwordProperty().bindBidirectional(mappedPerson.passwordProperty());				
+		person.passwordProperty().bindBidirectional(mappedPerson.passwordProperty());		
+		profile.imageProperty().bindBidirectional(mappedPerson.imageProperty());		
+		person.setPhoto(mappedPerson.getPhoto());
 		
-		profile.imageProperty().bindBidirectional(mappedPerson.imageProperty());
 		
-		cancel.setOnAction(evt -> navigation.set(navigationService.getNavigator(HomeController.class)));
-		
+		cancel.setOnAction(evt -> navigation.set(navigationService.getNavigator(HomeController.class)));		
 		save.setOnAction(evt -> onSaveHandler());
 
 	}
