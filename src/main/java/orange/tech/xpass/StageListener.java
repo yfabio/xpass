@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import orange.tech.xpass.navigation.CallBackController;
 
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent> {
@@ -41,7 +42,9 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
 				 Object bean = ctx.getBean(obj);
 				 return bean;
 			});
-			Pane root = fxmlLoader.load();				
+			Pane root = fxmlLoader.load();	
+			CallBackController<Stage> callback = fxmlLoader.getController();
+			callback.content(() -> stage);
 			Scene scene = new Scene(root);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(scene);
