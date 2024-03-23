@@ -1,7 +1,6 @@
 package orange.tech.xpass.controller;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.modelmapper.ModelMapper;
@@ -13,8 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Window;
 import orange.tech.xpass.navigation.NavigationService;
 import orange.tech.xpass.property.Person;
 import orange.tech.xpass.repository.PersonRepository;
@@ -93,12 +92,8 @@ public class ConfigController extends BaseController {
 	}
 
 	private void onUploadImage(ActionEvent evt) {
-		Optional<Image> op = ImageUtil.openFileDialog(((Control) evt.getSource()).getScene().getWindow(),data -> {
-			person.setPhoto(data);
-		});
-		if (op.isPresent()) {
-			profile.setImage(op.get());
-		}
+		Window window = ((Control) evt.getSource()).getScene().getWindow();
+		ImageUtil.openFileDialog(window,person::setPhoto).ifPresent(person::setImage);
 	}
 
 }
