@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -13,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import orange.tech.xpass.fx.PasswordField?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import orange.tech.xpass.fx.Binder?>
 <?import orange.tech.xpass.property.Person?>
@@ -21,7 +21,7 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.ConfigController">
 	<fx:define>
-		<Person fx:id="person"/>		
+		<Person fx:id="person" />
 	</fx:define>
 	<children>
 		<AnchorPane stylesheets="@../css/style.css">
@@ -39,14 +39,37 @@
 						<VBox styleClass="config">
 							<children>
 								<Label text="Username" />
-								<TextField fx:id="username" promptText="username"/>
+								<TextField fx:id="username" promptText="username" />
+								<Label text="Password" />
+								<HBox>
+									<children>
+										<PasswordField fx:id="password"
+											promptText="password" HBox.hgrow="ALWAYS" />
+										<fx:define>
+											<Binder o1="$person" p1="password" o2="$password"  p2="text" />
+										</fx:define>
+										<Button fx:id="pwdHide" mnemonicParsing="false"
+											styleClass="key_button">
+											<graphic>
+												<StackPane>
+													<children>
+														<FontIcon fx:id="open" iconLiteral="fas-lock"
+															iconSize="16" />
+														<FontIcon fx:id="close"	iconLiteral="fas-lock-open" iconSize="16" />
+													</children>
+												</StackPane>
+											</graphic>
+										</Button>
+									</children>
+								</HBox>
 								<fx:define>
-								 <Binder o1="$person" p1="username" o2="$username" p2="text" />
+									<Binder o1="$person" o2="$username" p1="username"
+										p2="text" />
 								</fx:define>
 								<Label text="Email" />
-								<TextField fx:id="email" promptText="email"/>
+								<TextField fx:id="email" promptText="email" />
 								<fx:define>
-								 <Binder o1="$person" p1="email" o2="$email" p2="text" />
+									<Binder o1="$person" o2="$email" p1="email" p2="text" />
 								</fx:define>
 								<Label text="Profile" />
 								<HBox alignment="CENTER_LEFT"
@@ -55,13 +78,12 @@
 										<HBox alignment="CENTER" spacing="5.0">
 											<children>
 												<ImageView fx:id="profile" fitHeight="150.0"
-													fitWidth="150.0" pickOnBounds="true" preserveRatio="true">													
+													fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
 												</ImageView>
 												<Button fx:id="upload" mnemonicParsing="false"
 													styleClass="config_button">
 													<graphic>
-														<FontIcon iconLiteral="fas-image"
-															iconSize="16" />
+														<FontIcon iconLiteral="fas-image" iconSize="16" />
 													</graphic>
 												</Button>
 											</children>

@@ -19,7 +19,7 @@
 	<children>
 		<VBox styleClass="home">
 			<children>
-				<Accordion>
+				<Accordion fx:id="filter">
 					<panes>
 						<TitledPane text="Filter">
 							<content>

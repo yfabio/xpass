@@ -3,10 +3,12 @@ package orange.tech.xpass.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.kordamp.ikonli.javafx.FontIcon;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,27 +21,44 @@ import orange.tech.xpass.property.Person;
 import orange.tech.xpass.repository.PersonRepository;
 import orange.tech.xpass.security.ApplicationLoggedUser;
 import orange.tech.xpass.util.ImageUtil;
+import orange.tech.xpass.fx.PasswordField;
+import orange.tech.xpass.modal.OnModalAction;
 
 @Component
 public class ConfigController extends BaseController {
 
 	@FXML
 	private TextField username;
+	
 	@FXML
 	private TextField email;
+	
 	@FXML
 	private ImageView profile;
+	
 	@FXML
 	private Button upload;
 	
 	@FXML
-	private Person person;
+	private PasswordField password;
+	
+	@FXML
+	private Button pwdHide;
+	
+	@FXML
+	private FontIcon open;
+	
+	@FXML
+	private FontIcon close;
 	
 	@FXML
 	private Button save;
 	
 	@FXML
 	private Button cancel;
+	
+	@FXML
+	private Person person;
 	
 	private PersonRepository personRepository;
 	
@@ -50,7 +69,6 @@ public class ConfigController extends BaseController {
 	private ModelMapper modelMapper;
 	
 	private ApplicationContext ctx;
-	
 
 	public ConfigController(PersonRepository personRepository,
 			ApplicationLoggedUser applicationLoggedUser,
@@ -77,10 +95,21 @@ public class ConfigController extends BaseController {
 		profile.imageProperty().bindBidirectional(mappedPerson.imageProperty());		
 		person.setPhoto(mappedPerson.getPhoto());
 		
+		pwdHide.graphicProperty().bind(Bindings.when(password.hideProperty()).then(close).otherwise(open));
+		pwdHide.setOnAction(evt -> onPasswordChanged());
 		
 		cancel.setOnAction(evt -> navigation.set(navigationService.getNavigator(HomeController.class)));		
 		save.setOnAction(evt -> onSaveHandler());
 
+	}
+
+	private void onPasswordChanged() {		
+		if(!password.hideProperty().get()) {
+			OnModalAction modal = ctx.getBean(MainController.class);
+			modal.canProceed(password::toggle);
+		}else {
+			password.toggle();
+		}
 	}
 
 	private void onSaveHandler() {
