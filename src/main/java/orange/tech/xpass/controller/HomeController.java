@@ -59,9 +59,8 @@ public class HomeController extends BaseController  {
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
-		var col  = keyRepository.findAllByPerson(applicationLoggedUser.loggedUser());
-		
+			
+		var col  = keyRepository.findAllByPerson(applicationLoggedUser.loggedUser());		
 		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
 						
 		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");

@@ -94,7 +94,7 @@ public class ConfigController extends BaseController {
 		person.passwordProperty().bindBidirectional(mappedPerson.passwordProperty());		
 		profile.imageProperty().bindBidirectional(mappedPerson.imageProperty());		
 		person.setPhoto(mappedPerson.getPhoto());
-		
+				
 		pwdHide.graphicProperty().bind(Bindings.when(password.hideProperty()).then(close).otherwise(open));
 		pwdHide.setOnAction(evt -> onPasswordChanged());
 		
@@ -124,7 +124,7 @@ public class ConfigController extends BaseController {
 
 	private void onUploadImage(ActionEvent evt) {
 		Window window = ((Control) evt.getSource()).getScene().getWindow();
-		ImageUtil.openFileDialog(window,person::setPhoto).ifPresent(person::setImage);
+		ImageUtil.openFileDialog(window,person::setPhoto).ifPresent(profile::setImage);
 	}
 
 }
