@@ -100,6 +100,8 @@ public class ConfigController extends BaseController {
 		
 		cancel.setOnAction(evt -> navigation.set(navigationService.getNavigator(HomeController.class)));		
 		save.setOnAction(evt -> onSaveHandler());
+		
+		password.disableProperty().bind(password.hideProperty().not());
 
 	}
 
