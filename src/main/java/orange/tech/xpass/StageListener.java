@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent> {
@@ -42,6 +43,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
 			});
 			Pane root = fxmlLoader.load();				
 			Scene scene = new Scene(root);
+			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(scene);
 			stage.centerOnScreen();
 			stage.show();

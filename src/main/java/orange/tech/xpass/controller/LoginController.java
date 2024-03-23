@@ -22,7 +22,7 @@ import orange.tech.xpass.navigation.FxLoader.Url;
 import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
-public class LoginController extends BaseController {
+public class LoginController extends BaseController  {
 
 	@FXML
 	private TextField username;
@@ -36,6 +36,7 @@ public class LoginController extends BaseController {
 	private FxLoader fxLoader;
 	
 	private ApplicationLoggedUser applicationLoggedUser;
+	
 
 	public LoginController(FxLoader fxLoader,ApplicationLoggedUser applicationLoggedUser) {
 		this.applicationLoggedUser = applicationLoggedUser;		
@@ -73,7 +74,7 @@ public class LoginController extends BaseController {
 						
 			Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 
-			Pane root = fxLoader.load(Url.MAIN, null).navigate();
+			Pane root = fxLoader.load(Url.MAIN, () -> stage).navigate();
 
 			Scene scene = new Scene(root);
 
@@ -88,5 +89,6 @@ public class LoginController extends BaseController {
 		
 		
 	}
+
 
 }

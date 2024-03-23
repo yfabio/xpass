@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
@@ -95,9 +94,6 @@ public class HomeController extends BaseController  {
 		txtSearch.setOnKeyReleased(evt -> onSearchHandled());
 		
 		
-		filter.expandedPaneProperty().addListener((obs,o,n)->{
-			Platform.runLater(txtSearch::requestFocus);		
-		});
 				
 	}
 

@@ -102,6 +102,16 @@
 	
 }
 
+.main_container_window_action {	
+	-fx-padding: 5;
+	-fx-spacing: 2;
+}
+
+.main_container_window_action .button {
+	-fx-background-color: -fx-first;
+}
+
+
 .main_user_content {
 	-fx-alignment: center-right;
 	-fx-padding: 5;
