@@ -46,7 +46,7 @@
 								<Label text="Date" />
 								<AnchorPane>
 									<children>
-										<DatePicker fx:id="date"
+										<DatePicker fx:id="date" promptText="date"
 											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>	
 											<fx:define>

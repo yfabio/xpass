@@ -115,7 +115,7 @@ public class KeyController extends BaseController implements CallBackController<
 
 		generate.setOnAction(evt -> generatePassword());
 		save.setOnAction(evt -> onSaveHandler());
-		
+		Platform.runLater(date::requestFocus);
 		
 	}
 
