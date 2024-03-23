@@ -40,7 +40,7 @@
 						</TitledPane>
 					</panes>
 				</Accordion>
-				<TableView fx:id="keys" tableMenuButtonVisible="true"
+				<TableView fx:id="keys"
 					VBox.vgrow="ALWAYS">
 					<columns>
 						<TableColumn text="Date">

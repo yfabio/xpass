@@ -70,9 +70,21 @@
 	-fx-background-color: #fff;	
 }
 
+.login_close {
+	-fx-alignment: top-right ;
+	-fx-padding: 0 20 0 0;
+}
+
+.login_close .button {
+	-fx-background-color: -fx-none;
+} 
+
+.login_close .ikonli-font-icon {
+	-fx-fill: -fx-first;
+}
+
 .login {
-	-fx-background-radius: 8;
-	-fx-border-radius: 8;
+	-fx-border-radius: 5;
 	-fx-pref-width: 400;
 	-fx-padding: 8;	
 	-fx-spacing: 5;
@@ -94,8 +106,10 @@
 	-fx-text-fill: -fx-first;	
 } 
 
-.main {
-	-fx-background-color: -fx-none;
+.main {	
+	-fx-padding: 10;
+	-fx-border-radius: 5;	
+	-fx-border-width: 1;
 }
 
 .main_logo {
@@ -147,6 +161,11 @@
 
 
 
+
+#keys .scroll-bar * {
+    -fx-background-color: -fx-none;
+    -fx-padding: 0;
+}
 
 .home {
 	-fx-background-color: #fff;

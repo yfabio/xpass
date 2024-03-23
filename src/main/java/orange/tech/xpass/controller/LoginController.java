@@ -33,6 +33,9 @@ public class LoginController extends BaseController  {
 	@FXML
 	private Label register;
 
+	@FXML 
+	private Button exit;
+	
 	private FxLoader fxLoader;
 	
 	private ApplicationLoggedUser applicationLoggedUser;
@@ -48,6 +51,12 @@ public class LoginController extends BaseController  {
 		register.setOnMouseClicked(evt -> onRegisterHandler(evt));		
 		login.setOnAction(evt -> onLoginHandler(evt));
 		password.setOnAction(evt -> onLoginHandler(evt));
+		exit.setOnAction(evt -> onExitHandler(evt));
+	}
+
+	private void onExitHandler(ActionEvent evt) {
+		Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
+		stage.close();
 	}
 
 	private void onRegisterHandler(MouseEvent evt) {

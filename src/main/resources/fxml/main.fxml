@@ -19,7 +19,7 @@
 <StackPane maxWidth="900.0"
 	onMouseDragged="#onMouseDraggedHandler"
 	onMousePressed="#onMousePressedHandler" prefHeight="600.0"
-	prefWidth="900.0" stylesheets="@../css/style.css"
+	prefWidth="900.0" styleClass="main" stylesheets="@../css/style.css"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.MainController">
 	<children>
@@ -27,7 +27,7 @@
 			<children>
 				<BorderPane>
 					<center>
-						<BorderPane styleClass="main">
+						<BorderPane>
 							<center>
 								<SplitPane dividerPositions="0.5">
 									<items>
