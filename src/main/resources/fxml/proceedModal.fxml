@@ -18,7 +18,7 @@
 				<AnchorPane>
 					<children>
 						<Label alignment="CENTER" prefHeight="22.0"
-							prefWidth="400.0" text="Type Your Password to allow this."
+							prefWidth="400.0" text="Type your password to allow this."
 							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<padding>

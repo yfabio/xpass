@@ -28,7 +28,7 @@
 										<Label text="Search" />
 										<HBox styleClass="home_search">
 											<children>
-												<TextField fx:id="txtSearch" HBox.hgrow="ALWAYS" />
+												<TextField fx:id="txtSearch" HBox.hgrow="ALWAYS" promptText="search by note" />
 											</children>
 											<VBox.margin>
 												<Insets bottom="5.0" />

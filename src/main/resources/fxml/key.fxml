@@ -57,7 +57,7 @@
 								<Label text="Note" />
 								<AnchorPane>
 									<children>
-										<TextField fx:id="note" AnchorPane.bottomAnchor="0.0"
+										<TextField fx:id="note" promptText="description" AnchorPane.bottomAnchor="0.0"
 											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 											AnchorPane.topAnchor="0.0" />
 											<fx:define>
@@ -68,7 +68,7 @@
 								<Label text="Username/Email" />
 								<AnchorPane>
 									<children>
-										<TextField fx:id="username"
+										<TextField fx:id="username" promptText="username or email"
 											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 										<fx:define>
@@ -79,7 +79,7 @@
 								<Label text="Password" />
 								<HBox>
 									<children>
-										<PasswordField fx:id="password"
+										<PasswordField fx:id="password" promptText="password"
 											HBox.hgrow="ALWAYS" />
 										<fx:define>
 											<Binder o1="$key" p1="password" o2="$password" p2="text" />

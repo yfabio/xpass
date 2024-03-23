@@ -39,12 +39,12 @@
 						<VBox styleClass="config">
 							<children>
 								<Label text="Username" />
-								<TextField fx:id="username" />
+								<TextField fx:id="username" promptText="username"/>
 								<fx:define>
 								 <Binder o1="$person" p1="username" o2="$username" p2="text" />
 								</fx:define>
 								<Label text="Email" />
-								<TextField fx:id="email" />
+								<TextField fx:id="email" promptText="email"/>
 								<fx:define>
 								 <Binder o1="$person" p1="email" o2="$email" p2="text" />
 								</fx:define>
