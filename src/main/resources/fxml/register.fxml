@@ -14,7 +14,7 @@
 <?import orange.tech.xpass.fx.Binder?>
 <?import orange.tech.xpass.property.Person?>
 
-<StackPane prefHeight="400.0" prefWidth="600.0"
+<StackPane prefHeight="400.0" prefWidth="450.0"
 	stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1"	
 	fx:controller="orange.tech.xpass.controller.RegisterController">
 	<fx:define>

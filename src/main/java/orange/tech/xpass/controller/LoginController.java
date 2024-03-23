@@ -13,6 +13,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -52,6 +53,7 @@ public class LoginController extends BaseController  {
 		login.setOnAction(evt -> onLoginHandler(evt));
 		password.setOnAction(evt -> onLoginHandler(evt));
 		exit.setOnAction(evt -> onExitHandler(evt));
+		exit.setTooltip(new Tooltip("close app"));
 	}
 
 	private void onExitHandler(ActionEvent evt) {
