@@ -217,7 +217,7 @@
 
 .key {
 	-fx-pref-width: 400;
-	-fx-spacing: 5;
+	-fx-spacing: 2;
 }
 
 .key > .label {

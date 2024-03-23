@@ -16,9 +16,9 @@
 <?import orange.tech.xpass.fx.PlaceHolder?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane maxWidth="900.0"
+<StackPane
 	onMouseDragged="#onMouseDraggedHandler"
-	onMousePressed="#onMousePressedHandler" prefHeight="600.0"
+	onMousePressed="#onMousePressedHandler" prefHeight="650.0"
 	prefWidth="900.0" styleClass="main" stylesheets="@../css/style.css"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.MainController">
