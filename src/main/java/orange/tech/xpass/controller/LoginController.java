@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -62,7 +61,6 @@ public class LoginController extends BaseController implements CallBackControlle
 	}
 
 	private void onExitHandler(ActionEvent evt) {
-		Stage stage = (Stage) ((Control) evt.getSource()).getScene().getWindow();
 		stage.close();
 	}
 
