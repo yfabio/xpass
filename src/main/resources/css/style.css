@@ -243,6 +243,7 @@
 
 .config_profile_photo {
 	-fx-spacing: 5;
+	-fx-padding: 10;
 }
 
 .config_button {
@@ -255,6 +256,23 @@
 
 .config_action_button {
 	-fx-pref-width: 100;
+}
+
+
+/* MODAL */
+
+.modal_container {
+	-fx-border-radius: 4;
+	-fx-background-color: #fff;
+}
+
+.modal_container .label {
+	-fx-font-size: 16px;
+	-fx-text-fill: #000;
+}
+
+.modal_container .button {
+	-fx-background-color: -fx-first;
 }
 
 
