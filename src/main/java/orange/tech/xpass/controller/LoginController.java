@@ -17,6 +17,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.exception.ApplicationException;
 import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.FxLoader;
@@ -42,13 +43,18 @@ public class LoginController extends BaseController implements CallBackControlle
 
 	private ApplicationLoggedUser applicationLoggedUser;
 	
+	private Validator validator;
+	
 	private double xOffset;
 	private double yOffset;
 	private Stage stage;
 
-	public LoginController(FxLoader fxLoader, ApplicationLoggedUser applicationLoggedUser) {
+	public LoginController(FxLoader fxLoader,
+			ApplicationLoggedUser applicationLoggedUser,
+			Validator validator) {
 		this.applicationLoggedUser = applicationLoggedUser;
 		this.fxLoader = fxLoader;
+		this.validator = validator;
 	}
 
 	@Override
@@ -79,6 +85,28 @@ public class LoginController extends BaseController implements CallBackControlle
 	private void onLoginHandler(ActionEvent evt) {
 
 		try {
+			
+			validator.createCheck()
+						.dependsOn("username",username.textProperty())
+						.withMethod(c -> {
+							String value = c.get("username");
+							if(value.isBlank()){
+								c.error("username is required");
+							}
+						}).decorates(username).immediateClear();
+						
+			validator.createCheck()
+			.dependsOn("password",password.textProperty())
+			.withMethod(c -> {
+				String value = c.get("password");
+				if(value.isBlank()){
+					c.error("password is required");
+				}
+			}).decorates(username).immediateClear();
+			
+			if(!validator.validate()) {
+				return;
+			}
 
 			applicationLoggedUser.tryLogin(username.getText(), password.getText());
 

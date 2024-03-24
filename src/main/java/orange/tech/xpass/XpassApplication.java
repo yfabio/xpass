@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import javafx.application.Application;
+import net.synedra.validatorfx.Validator;
 
 @SpringBootApplication
 @ComponentScan("orange.tech.xpass")
@@ -20,5 +21,10 @@ public class XpassApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}	
+	
+	@Bean
+	public Validator validator() {
+		return new Validator();
+	} 
 	
 }

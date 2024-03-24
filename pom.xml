@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<ikonli.version>12.3.1</ikonli.version>
+		<validatorfx.version>0.5.0</validatorfx.version>
 		<javafx.version>17.0.2</javafx.version>
 		<spring.version>6.0.8</spring.version>
 	</properties>
@@ -31,7 +32,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -103,6 +104,12 @@
 			<groupId>org.kordamp.ikonli</groupId>
 			<artifactId>ikonli-fontawesome5-pack</artifactId>
 			<version>${ikonli.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.synedra</groupId>
+			<artifactId>validatorfx</artifactId>
+			<version>${validatorfx.version}</version>
 		</dependency>
 
 
