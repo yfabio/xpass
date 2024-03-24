@@ -1,6 +1,7 @@
 package orange.tech.xpass.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
@@ -9,13 +10,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.builder.Builder;
 import orange.tech.xpass.builder.PasswordBuilder;
 import orange.tech.xpass.fx.PasswordField;
@@ -26,7 +31,7 @@ import orange.tech.xpass.repository.KeyRepository;
 import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
-public class KeyController extends BaseController implements CallBackController<Key> {
+public class KeyController extends BaseController implements CallBackController<Key>, InvalidationListener {
 
 	@FXML
 	private DatePicker date;
@@ -84,14 +89,18 @@ public class KeyController extends BaseController implements CallBackController<
 	private ModelMapper modelMapper;
 
 	private ApplicationLoggedUser applicationLoggedUser;
-	
-	public KeyController(NavigationService navigationService, 
-			KeyRepository keyRepository,
-			ModelMapper modelMapper,
-			ApplicationLoggedUser applicationLoggedUser) {
+
+	private Validator validator;
+
+	@FXML
+	private Label error;
+
+	public KeyController(NavigationService navigationService, KeyRepository keyRepository, ModelMapper modelMapper,
+			ApplicationLoggedUser applicationLoggedUser, Validator validator) {
 		this.navigationService = navigationService;
 		this.keyRepository = keyRepository;
 		this.modelMapper = modelMapper;
+		this.validator = validator;
 		this.applicationLoggedUser = applicationLoggedUser;
 	}
 
@@ -116,15 +125,88 @@ public class KeyController extends BaseController implements CallBackController<
 		generate.setOnAction(evt -> generatePassword());
 		save.setOnAction(evt -> onSaveHandler());
 		Platform.runLater(date::requestFocus);
-		
+
+		date.valueProperty().addListener(this);
+		note.textProperty().addListener(this);
+		username.textProperty().addListener(this);
+		password.textProperty().addListener(this);
+
 	}
 
 	private void onSaveHandler() {
-		var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);	
-		value.setPerson(applicationLoggedUser.loggedUser());		
-		keyRepository.save(value);
-		key.reset();
-		Platform.runLater(date::requestFocus);
+
+		validator.createCheck().dependsOn("date", date.valueProperty()).withMethod(c -> {
+			LocalDate date = c.get("date");
+			if (date == null) {
+				c.error("Please choose a date");
+			}
+		}).decorates(date).immediateClear();
+
+		if (validateAndDisplay()) {
+			return;
+		}
+
+		validator.createCheck().dependsOn("note", note.textProperty()).withMethod(c -> {
+			String note = c.get("note");
+			if (note.isBlank()) {
+				c.error("Please type a description");
+			}
+		}).decorates(note).immediateClear();
+
+		if (validateAndDisplay()) {
+			return;
+		}
+
+		validator.createCheck().dependsOn("username", username.textProperty()).withMethod(c -> {
+			String username = c.get("username");
+			if (username.isBlank()) {
+				c.error("Please type username");
+			}
+		}).decorates(username).immediateClear();
+
+		if (validateAndDisplay()) {
+			return;
+		}
+
+		validator.createCheck().dependsOn("password", password.textProperty()).withMethod(c -> {
+			String password = c.get("password");
+			if (password.isBlank()) {
+				c.error("Password is required");
+			} else if (password.length() < 4) {
+				c.error("Password length minimum 4");
+			}
+		}).decorates(password).immediateClear();
+
+		if (validateAndDisplay()) {
+			return;
+		}
+
+		try {
+			var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);
+			value.setPerson(applicationLoggedUser.loggedUser());
+			keyRepository.save(value);
+
+			date.valueProperty().addListener(this);
+			note.textProperty().addListener(this);
+			username.textProperty().addListener(this);
+			password.textProperty().addListener(this);
+
+			key.reset();
+			Platform.runLater(date::requestFocus);
+
+		} catch (Exception e) {
+			error.setText("unable to save");
+		}
+	}
+
+	private boolean validateAndDisplay() {
+		if (!validator.validate()) {
+			validator.getValidationResult().getMessages().forEach(c -> {
+				error.setText(c.getText());
+			});
+			return true;
+		}
+		return false;
 	}
 
 	private void generatePassword() {
@@ -135,6 +217,13 @@ public class KeyController extends BaseController implements CallBackController<
 	@Override
 	public void content(Supplier<Key> sup) {
 		key.setData(sup.get());
+	}
+
+	@Override
+	public void invalidated(Observable observable) {
+		if (!error.getText().isBlank()) {
+			error.setText("");
+		}
 	}
 
 }

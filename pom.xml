@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<ikonli.version>12.3.1</ikonli.version>
-		<validatorfx.version>0.5.0</validatorfx.version>
+		<validatorfx.version>0.5.0</validatorfx.version>		
 		<javafx.version>17.0.2</javafx.version>
 		<spring.version>6.0.8</spring.version>
 	</properties>
@@ -111,7 +111,6 @@
 			<artifactId>validatorfx</artifactId>
 			<version>${validatorfx.version}</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
