@@ -6,6 +6,8 @@ import java.util.function.Supplier;
 
 import org.springframework.stereotype.Component;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -25,7 +27,7 @@ import orange.tech.xpass.navigation.FxLoader.Url;
 import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
-public class LoginController extends BaseController implements CallBackController<Stage> {
+public class LoginController extends BaseController implements CallBackController<Stage>, InvalidationListener {
 
 	@FXML
 	private TextField username;
@@ -38,6 +40,9 @@ public class LoginController extends BaseController implements CallBackControlle
 
 	@FXML
 	private Button exit;
+	
+	@FXML
+	private Label error;
 
 	private FxLoader fxLoader;
 
@@ -63,7 +68,10 @@ public class LoginController extends BaseController implements CallBackControlle
 		login.setOnAction(evt -> onLoginHandler(evt));
 		password.setOnAction(evt -> onLoginHandler(evt));
 		exit.setOnAction(evt -> onExitHandler(evt));
-		exit.setTooltip(new Tooltip("close app"));
+		exit.setTooltip(new Tooltip("close app"));	
+		
+		username.textProperty().addListener(this);
+		password.textProperty().addListener(this);
 	}
 
 	private void onExitHandler(ActionEvent evt) {
@@ -78,7 +86,7 @@ public class LoginController extends BaseController implements CallBackControlle
 			stage.centerOnScreen();
 			stage.show();
 		} catch (Exception e) {
-			// TODO feedback error load register
+			error.setText(e.getMessage());
 		}
 	}
 
@@ -94,6 +102,8 @@ public class LoginController extends BaseController implements CallBackControlle
 								c.error("username is required");
 							}
 						}).decorates(username).immediateClear();
+			
+			if(validateAndDisplay()) {return;}
 						
 			validator.createCheck()
 			.dependsOn("password",password.textProperty())
@@ -102,11 +112,12 @@ public class LoginController extends BaseController implements CallBackControlle
 				if(value.isBlank()){
 					c.error("password is required");
 				}
-			}).decorates(username).immediateClear();
+			}).decorates(password).immediateClear();
 			
-			if(!validator.validate()) {
-				return;
-			}
+			if(validateAndDisplay()) {return;}
+			
+			username.textProperty().removeListener(this);
+			password.textProperty().removeListener(this);
 
 			applicationLoggedUser.tryLogin(username.getText(), password.getText());
 
@@ -117,10 +128,11 @@ public class LoginController extends BaseController implements CallBackControlle
 			stage.setScene(scene);
 			stage.centerOnScreen();
 			stage.show();
+			
+			
 
 		} catch (ApplicationException e) {
-			// TODO feedback user login
-			System.out.println(e.getMessage());
+			error.setText(e.getMessage());
 		}
 
 	}
@@ -141,5 +153,26 @@ public class LoginController extends BaseController implements CallBackControlle
 	public void content(Supplier<Stage> sup) {
 		this.stage = sup.get();		
 	}
+
+	@Override
+	public void invalidated(Observable observable) {
+		if(!error.getText().isBlank()) {
+			error.setText("");
+		}		
+	}
+	
+	private boolean validateAndDisplay() {
+		if(!validator.validate()) {				
+			validator.getValidationResult()
+			 .getMessages()
+			 .forEach(c -> {
+				 error.setText(c.getText());
+			 });	
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 }

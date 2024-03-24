@@ -12,12 +12,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<StackPane prefHeight="400.0" prefWidth="450.0"
-	onMouseDragged="#onMouseDraggedHandler"
-	onMousePressed="#onMousePressedHandler"
-	stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane onMouseDragged="#onMouseDraggedHandler"
+	onMousePressed="#onMousePressedHandler" prefHeight="400.0"
+	prefWidth="450.0" stylesheets="@../css/style.css"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.LoginController">
 	<children>
 		<VBox alignment="CENTER">
@@ -73,6 +74,17 @@
 						</VBox>
 					</children>
 				</GridPane>
+				<AnchorPane>
+					<children>
+						<Label fx:id="error" alignment="CENTER" textFill="RED"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<font>
+								<Font name="System Bold" size="12.0" />
+							</font>
+						</Label>
+					</children>
+				</AnchorPane>
 			</children>
 		</VBox>
 	</children>

@@ -7,26 +7,26 @@ import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
-import javafx.beans.binding.Bindings;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import net.synedra.validatorfx.TooltipWrapper;
 import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
 import orange.tech.xpass.property.Person;
 import orange.tech.xpass.repository.PersonRepository;
-import javafx.scene.control.Label;
 
 @Component
-public class RegisterController extends BaseController {
+public class RegisterController extends BaseController implements InvalidationListener {
 
 	@FXML
 	private TextField username;
@@ -34,15 +34,13 @@ public class RegisterController extends BaseController {
 	private PasswordField password;
 	@FXML
 	private PasswordField confirmPassword;
+	
+	@FXML 
+	private Label error;
+	
 	@FXML
 	private Button register;	
-	@FXML
-	private Label usernameError;
-	@FXML
-	private Label passwordError;
-	@FXML
-	private Label confirmError;
-	
+		
 	@FXML
 	private Button cancel;
 
@@ -56,6 +54,7 @@ public class RegisterController extends BaseController {
 	private ModelMapper modelMapper;
 	
 	private Validator validator;
+	
 
 
 	public RegisterController(FxLoader fxLoader, 
@@ -73,8 +72,9 @@ public class RegisterController extends BaseController {
 		register.setOnAction(evt -> onRegisterHandler(evt));
 		cancel.setOnAction(evt -> onCancelHandler(evt));
 		
-		
-		
+		username.textProperty().addListener(this);
+		password.textProperty().addListener(this);
+		confirmPassword.textProperty().addListener(this);
 	}
 
 	private void onCancelHandler(ActionEvent evt) {
@@ -84,7 +84,7 @@ public class RegisterController extends BaseController {
 	private void onRegisterHandler(ActionEvent evt) {
 				
 		validator.createCheck()
-	     .dependsOn("username",person.usernameProperty())
+	     .dependsOn("username",username.textProperty())
 	     .withMethod(c -> {
 	    	 String username = c.get("username");
 	    	 if(username.isBlank()) {
@@ -92,9 +92,10 @@ public class RegisterController extends BaseController {
 	    	 }
 	     }).decorates(username).immediateClear();
 		
-		
+		if(validateAndDisplay()) {return;}
+						
 		validator.createCheck()
-	     .dependsOn("password",person.passwordProperty())
+	     .dependsOn("password",password.textProperty())
 	     .withMethod(c -> {
 	    	 String password = c.get("password");
 	    	 if(password.isBlank()) {
@@ -102,29 +103,33 @@ public class RegisterController extends BaseController {
 	    	 }
 	     }).decorates(password).immediateClear();
 		
+		if(validateAndDisplay()) {return;}
+		
 		validator.createCheck()
 	     .dependsOn("confirm", confirmPassword.textProperty())
 	     .withMethod(c -> {
 	    	String confirm = c.get("confirm");
-	    	if(!confirm.equals(person.getPassword())) {
+	    	String pass = password.getText();
+	    	if(confirm.isBlank()) {
+	    		c.error("Confirm Passowrd is required");
+	    	}else if(!confirm.equals(pass)) {
 	    		c.error("Passwords do not match");
 	    	}
 	     }).decorates(confirmPassword).immediateClear();
 							
-				
-		if(validator.validate()) {			
-			var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
-
-			try {
-				personRepository.save(value);
-				login(evt);
-			} catch (DataIntegrityViolationException e) {
-				System.out.println(e.getMessage());
-				// TODO feedback user already exist username.
-			}
-		}
+		if(validateAndDisplay()) {return;}
 		
-				
+		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
+
+		try {
+			personRepository.save(value);
+			username.textProperty().removeListener(this);
+			password.textProperty().removeListener(this);
+			confirmPassword.textProperty().removeListener(this);		
+			login(evt);
+		} catch (DataIntegrityViolationException e) {
+			error.setText("Username %s already exists".formatted(username.getText()));
+		}
 
 	}
 
@@ -140,8 +145,27 @@ public class RegisterController extends BaseController {
 			stage.centerOnScreen();
 			stage.show();
 		} catch (Exception e) {
-			e.printStackTrace();
+			error.setText(e.getMessage());
 		}
 	}
 
+	@Override
+	public void invalidated(Observable observable) {
+		if(!error.getText().isBlank()) {error.setText("");}		
+	}
+
+	
+	private boolean validateAndDisplay() {
+		if(!validator.validate()) {				
+			validator.getValidationResult()
+			 .getMessages()
+			 .forEach(c -> {
+				 error.setText(c.getText());
+			 });	
+			return true;
+		}
+		return false;
+	}
+	
+	
 }
