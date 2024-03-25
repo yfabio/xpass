@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Window;
 import net.synedra.validatorfx.Validator;
+import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.fx.PasswordField;
 import orange.tech.xpass.modal.OnModalAction;
 import orange.tech.xpass.navigation.NavigationService;
@@ -78,11 +79,14 @@ public class ConfigController extends BaseController implements InvalidationList
 	private ApplicationContext ctx;
 	
 	private Validator validator;
+	
+	private Zippo zippo;
 
 	public ConfigController(PersonRepository personRepository,
 			ApplicationLoggedUser applicationLoggedUser,
 			ModelMapper modelMapper,
 			Validator validator,
+			Zippo zippo,
 			NavigationService navigationService,
 			ApplicationContext ctx) {
 		this.personRepository = personRepository;
@@ -91,6 +95,7 @@ public class ConfigController extends BaseController implements InvalidationList
 		this.modelMapper = modelMapper;
 		this.navigationService = navigationService;
 		this.ctx = ctx;
+		this.zippo = zippo;
 	}
 
 	@Override
@@ -98,6 +103,7 @@ public class ConfigController extends BaseController implements InvalidationList
 
 		upload.setOnAction(evt -> onUploadImage(evt));		
 		var mappedPerson = modelMapper.map(applicationLoggedUser.loggedUser(), Person.class);	
+		mappedPerson.setPassword(zippo.decrypt(mappedPerson.getPassword()));
 		person.idProperty().bindBidirectional(mappedPerson.idProperty());
 		person.emailProperty().bindBidirectional(mappedPerson.emailProperty());		
 		person.usernameProperty().bindBidirectional(mappedPerson.usernameProperty());
@@ -156,7 +162,8 @@ public class ConfigController extends BaseController implements InvalidationList
 		
 		
 		try {
-			var mapped = modelMapper.map(person,orange.tech.xpass.entity.Person.class);
+			var mapped = modelMapper.map(person,orange.tech.xpass.entity.Person.class);			
+			mapped.setPassword(zippo.encrypt(mapped.getPassword()));			
 			applicationLoggedUser.replace(personRepository.save(mapped));
 			username.textProperty().removeListener(this);
 			password.textProperty().removeListener(this);

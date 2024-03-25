@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.builder.Builder;
 import orange.tech.xpass.builder.PasswordBuilder;
+import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.fx.PasswordField;
 import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.NavigationService;
@@ -65,6 +66,9 @@ public class KeyController extends BaseController implements CallBackController<
 
 	@FXML
 	private Button generate;
+	
+	@FXML
+	private Label error;
 
 	@FXML
 	private Button save;
@@ -91,17 +95,17 @@ public class KeyController extends BaseController implements CallBackController<
 	private ApplicationLoggedUser applicationLoggedUser;
 
 	private Validator validator;
-
-	@FXML
-	private Label error;
+	
+	private Zippo zippo;
 
 	public KeyController(NavigationService navigationService, KeyRepository keyRepository, ModelMapper modelMapper,
-			ApplicationLoggedUser applicationLoggedUser, Validator validator) {
+			ApplicationLoggedUser applicationLoggedUser, Validator validator,Zippo zippo) {
 		this.navigationService = navigationService;
 		this.keyRepository = keyRepository;
 		this.modelMapper = modelMapper;
 		this.validator = validator;
 		this.applicationLoggedUser = applicationLoggedUser;
+		this.zippo = zippo;
 	}
 
 	@Override
@@ -184,6 +188,9 @@ public class KeyController extends BaseController implements CallBackController<
 		try {
 			var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);
 			value.setPerson(applicationLoggedUser.loggedUser());
+			
+			value.setPassword(zippo.encrypt(value.getPassword()));
+			
 			keyRepository.save(value);
 
 			date.valueProperty().addListener(this);

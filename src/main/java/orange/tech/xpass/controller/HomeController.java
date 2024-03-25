@@ -15,6 +15,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.fx.ActionTableCell;
 import orange.tech.xpass.fx.PasswordFieldTableCell;
 import orange.tech.xpass.modal.OnModalAction;
@@ -44,23 +45,30 @@ public class HomeController extends BaseController  {
 	private ModelMapper modelMapper;
 	
 	private ApplicationLoggedUser applicationLoggedUser;
+	
+	private Zippo zippo;	
 			
 	public HomeController(NavigationService navigationService,
 			ApplicationContext ctx,KeyRepository keyRepository,
 			ApplicationLoggedUser applicationLoggedUser,
-			ModelMapper modelMapper) {
+			ModelMapper modelMapper,
+			Zippo zippo) {
 		this.navigationService = navigationService;		
 		this.ctx = ctx;
 		this.keyRepository = keyRepository;
 		this.applicationLoggedUser = applicationLoggedUser;
 		this.modelMapper = modelMapper;
+		this.zippo = zippo;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 			
 		var col  = keyRepository.findAllByPerson(applicationLoggedUser.loggedUser());		
-		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
+		var mapped = col.stream().map(e -> {
+			e.setPassword(zippo.decrypt(e.getPassword()));
+			return e;
+		}).map(e -> modelMapper.map(e, Key.class)).toList();
 						
 		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");
 		passwordColumn.setCellFactory(c -> new PasswordFieldTableCell<>(canProceed -> {
