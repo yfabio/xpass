@@ -29,7 +29,7 @@ public class ZippoImpl implements Zippo {
 			byte[] base64Encoded = Base64.getEncoder().encode(cipherText);
 			return new String(base64Encoded);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("unable to encrypt");
 		}
 	}
 
@@ -42,7 +42,7 @@ public class ZippoImpl implements Zippo {
 			byte[] plainText = cipher.doFinal(Base64.getDecoder().decode(cipherText));
 			return new String(plainText);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("unable to decrypt");
 		} 
 		
 	}
