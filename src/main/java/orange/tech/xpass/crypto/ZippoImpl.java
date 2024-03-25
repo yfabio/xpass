@@ -14,10 +14,13 @@ public class ZippoImpl implements Zippo {
 	
 	private static final String ALGORITHM = "AES";
 	
-	private final SecretKey key;
+	private SecretKey key;
+	
+	private final String mySecretKey;
 			
 	public ZippoImpl(Environment env) {		
-		key = getSecretKey(env.getProperty("MY_SECRET_KEY"));		
+		mySecretKey = env.getProperty("MY_SECRET_KEY");		
+		key = getSecretKey();
 	}
 	
 	@Override
@@ -47,7 +50,7 @@ public class ZippoImpl implements Zippo {
 		
 	}
 	
-	private SecretKey getSecretKey(String mySecretKey) {				
+	private SecretKey getSecretKey() {				
 		
 		if(mySecretKey == null || mySecretKey.getBytes().length != 16) {
 			throw new RuntimeException("The key length was invalid");
