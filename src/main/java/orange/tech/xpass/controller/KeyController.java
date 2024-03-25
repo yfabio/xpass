@@ -210,7 +210,7 @@ public class KeyController extends BaseController implements CallBackController<
 	}
 
 	private void generatePassword() {
-		password.setText(builder.length(spinner.getValue()).lower(lowerLetters.isSelected())
+		password.textProperty().setValue(builder.length(spinner.getValue()).lower(lowerLetters.isSelected())
 				.upper(upperLetters.isSelected()).number(numbers.isSelected()).symbol(symbols.isSelected()).build());
 	}
 

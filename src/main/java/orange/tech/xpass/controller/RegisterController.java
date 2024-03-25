@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Validator;
+import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
 import orange.tech.xpass.property.Person;
@@ -55,16 +56,18 @@ public class RegisterController extends BaseController implements InvalidationLi
 	
 	private Validator validator;
 	
-
+	private Zippo zippo;
 
 	public RegisterController(FxLoader fxLoader, 
 			PersonRepository personRepository,
 			ModelMapper modelMapper,
-			Validator validator) {
+			Validator validator,
+			Zippo zippo) {
 		this.fxLoader = fxLoader;
 		this.personRepository = personRepository;
 		this.modelMapper = modelMapper;
 		this.validator = validator;
+		this.zippo = zippo;
 	}
 
 	@Override
@@ -75,6 +78,9 @@ public class RegisterController extends BaseController implements InvalidationLi
 		username.textProperty().addListener(this);
 		password.textProperty().addListener(this);
 		confirmPassword.textProperty().addListener(this);
+		
+		
+		
 	}
 
 	private void onCancelHandler(ActionEvent evt) {
@@ -122,6 +128,9 @@ public class RegisterController extends BaseController implements InvalidationLi
 		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
 
 		try {
+			
+			value.setPassword(zippo.encrypt(value.getPassword()));
+			
 			personRepository.save(value);
 			username.textProperty().removeListener(this);
 			password.textProperty().removeListener(this);

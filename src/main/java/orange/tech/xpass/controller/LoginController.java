@@ -49,7 +49,7 @@ public class LoginController extends BaseController implements CallBackControlle
 	private ApplicationLoggedUser applicationLoggedUser;
 	
 	private Validator validator;
-	
+		
 	private double xOffset;
 	private double yOffset;
 	private Stage stage;
@@ -59,7 +59,7 @@ public class LoginController extends BaseController implements CallBackControlle
 			Validator validator) {
 		this.applicationLoggedUser = applicationLoggedUser;
 		this.fxLoader = fxLoader;
-		this.validator = validator;
+		this.validator = validator;		
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class LoginController extends BaseController implements CallBackControlle
 			
 			username.textProperty().removeListener(this);
 			password.textProperty().removeListener(this);
-
+			
 			applicationLoggedUser.tryLogin(username.getText(), password.getText());
 
 			Pane root = fxLoader.load(Url.MAIN, () -> stage).navigate();
