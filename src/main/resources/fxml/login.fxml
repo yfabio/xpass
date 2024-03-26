@@ -14,12 +14,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import orange.tech.xpass.fx.Binder?>
+<?import orange.tech.xpass.property.Person?>
 
 <StackPane onMouseDragged="#onMouseDraggedHandler"
 	onMousePressed="#onMousePressedHandler" prefHeight="400.0"
 	prefWidth="450.0" stylesheets="@../css/style.css"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="orange.tech.xpass.controller.LoginController">
+	<fx:define>
+		<Person fx:id="person" />
+	</fx:define>
 	<children>
 		<VBox alignment="CENTER">
 			<children>
@@ -46,9 +51,14 @@
 								<Label styleClass="login_title" text="Login" />
 								<Label styleClass="login_label" text="Username" />
 								<TextField fx:id="username" promptText="username" />
+								<fx:define>
+									<Binder o1="$person"  p1="username" o2="$username" p2="text" />
+								</fx:define>
 								<Label styleClass="login_label" text="Password" />
-								<PasswordField fx:id="password"
-									promptText="password" />
+								<PasswordField fx:id="password"	promptText="password" />
+								<fx:define>
+									<Binder o1="$person"  p1="password" o2="$password" p2="text" />
+								</fx:define>
 								<AnchorPane VBox.vgrow="ALWAYS">
 									<children>
 										<Button fx:id="login" mnemonicParsing="false"

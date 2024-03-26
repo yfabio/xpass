@@ -4,8 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import jakarta.validation.Validator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -21,6 +23,7 @@ import orange.tech.xpass.exception.ApplicationException;
 import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
+import orange.tech.xpass.property.Person;
 import orange.tech.xpass.security.ApplicationLoggedUser;
 
 @Component
@@ -34,6 +37,9 @@ public class LoginController extends BaseController implements CallBackControlle
 	private Button login;
 	@FXML
 	private Label register;
+	
+	@FXML 
+	private Person person;
 
 	@FXML
 	private Button exit;
@@ -44,14 +50,24 @@ public class LoginController extends BaseController implements CallBackControlle
 	private FxLoader fxLoader;
 
 	private ApplicationLoggedUser applicationLoggedUser;
-
+	
+	private ModelMapper modelMapper;
+	
+	private Validator validator;
+	
+	
 	private double xOffset;
 	private double yOffset;
 	private Stage stage;
+	
 
-	public LoginController(FxLoader fxLoader, ApplicationLoggedUser applicationLoggedUser) {
+	public LoginController(FxLoader fxLoader, ApplicationLoggedUser applicationLoggedUser,
+			ModelMapper modelMapper,
+			Validator validator) {
 		this.applicationLoggedUser = applicationLoggedUser;
 		this.fxLoader = fxLoader;
+		this.modelMapper = modelMapper;
+		this.validator = validator;
 	}
 
 	@Override
@@ -61,7 +77,6 @@ public class LoginController extends BaseController implements CallBackControlle
 		password.setOnAction(evt -> onLoginHandler(evt));
 		exit.setOnAction(evt -> onExitHandler(evt));
 		exit.setTooltip(new Tooltip("close app"));
-
 	}
 
 	private void onExitHandler(ActionEvent evt) {
@@ -83,22 +98,40 @@ public class LoginController extends BaseController implements CallBackControlle
 	private void onLoginHandler(ActionEvent evt) {
 
 		try {
+			
+			var value  = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
+			
+			var set = validator.validate(value);
+			
+			if(set.size() > 0) {
+				
+				var messages = messages(set);				
+				error.setText(messages.toString());
+				resetError(error);
+				
+			}else {
+				
+				applicationLoggedUser.tryLogin(person.getUsername(),person.getPassword());
 
-			applicationLoggedUser.tryLogin(username.getText(), password.getText());
+				Pane root = fxLoader.load(Url.MAIN, () -> stage).navigate();
 
-			Pane root = fxLoader.load(Url.MAIN, () -> stage).navigate();
+				Scene scene = new Scene(root);
 
-			Scene scene = new Scene(root);
-
-			stage.setScene(scene);
-			stage.centerOnScreen();
-			stage.show();
+				stage.setScene(scene);
+				stage.centerOnScreen();
+				stage.show();
+			}
+			
+			
 
 		} catch (ApplicationException e) {
 			error.setText(e.getMessage());
+			resetError(error);
 		}
 
 	}
+
+	
 
 	@FXML
 	public void onMouseDraggedHandler(MouseEvent evt) {

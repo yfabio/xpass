@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "persons")
@@ -24,9 +25,11 @@ public class Person implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "username is required")
 	@Column(length = 100, unique = true)	
 	private String username;
 	
+	@NotBlank(message = "password is required")
 	@Column(length = 68)
 	private String password;
 	
