@@ -34,9 +34,10 @@
 				<StackPane>
 					<children>
 						<Button fx:id="ok" mnemonicParsing="false"
-							prefWidth="100.0" text="ok" StackPane.alignment="CENTER_LEFT" />
+							prefWidth="100.0" styleClass="modal_action_buttons" text="ok"
+							StackPane.alignment="CENTER_LEFT" />
 						<Button fx:id="cancel" mnemonicParsing="false"
-							prefWidth="100.0" text="cancel"
+							prefWidth="100.0" styleClass="modal_action_buttons" text="cancel"
 							StackPane.alignment="CENTER_RIGHT" />
 					</children>
 					<padding>

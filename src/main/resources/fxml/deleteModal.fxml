@@ -28,15 +28,15 @@
 				<StackPane prefWidth="200.0">
 					<children>
 						<Button fx:id="ok" mnemonicParsing="false"
-							prefWidth="100.0" text="ok" textFill="WHITE"
-							StackPane.alignment="CENTER_LEFT">
+							prefWidth="100.0" styleClass="modal_action_buttons" text="ok"
+							textFill="WHITE" StackPane.alignment="CENTER_LEFT">
 							<padding>
 								<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 							</padding>
 						</Button>
 						<Button fx:id="cancel" mnemonicParsing="false"
-							prefWidth="100.0" text="cancel" textFill="WHITE"
-							StackPane.alignment="CENTER_RIGHT">
+							prefWidth="100.0" styleClass="modal_action_buttons" text="cancel"
+							textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
 							<padding>
 								<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 							</padding>

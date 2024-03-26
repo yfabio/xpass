@@ -23,7 +23,7 @@
 
 .button {	
 	-fx-text-fill: #fff;
-	-fx-font-weight: bold;
+	-fx-font-weight: bold;	
 }
 
 
@@ -112,13 +112,12 @@
 	-fx-border-width: 1;
 }
 
-
 .main_container_window_action {	
 	-fx-padding: 5;
 	-fx-spacing: 2;
 }
 
-.main_container_window_action .button {
+.main_container_window_action > .button {
 	-fx-background-color: -fx-first;
 }
 
@@ -140,7 +139,10 @@
 
 .main_menu_button {
 	-fx-background-color: -fx-first;
-}
+} 
+
+
+
 
 
 .table-view .column-header {
@@ -180,18 +182,16 @@
 }
 
 .home_search > .button {
-	-fx-background-color: -fx-first;
 	-fx-min-width: 60;	
 }
 
 .home_date_search_button {
-	-fx-background-color: -fx-first;
 	-fx-text-fill: #fff;
 	-fx-min-width: 60;
 }
 
 .home_table_action_button {
- 	-fx-background-color: -fx-first;
+	-fx-background-color: -fx-first;
  	-fx-alignment: center; 
  	-fx-pref-height: 35;	
 }
@@ -210,30 +210,50 @@
 }
 
 
-
-
-.key {
-	-fx-pref-width: 400;
-	-fx-spacing: 2;
+.key_container {
+	-fx-pref-width: 600;
+	-fx-pref-height: 400;	
 }
 
-.key > .label {
+.key_container > .label {
 	-fx-text-fill: black;
 }
 
-.key_button {
+.key_error_label {
+	-fx-font-size: 12;
+	-fx-text-fill: red;
+	-fx-font-weight: bold;
+}
+
+.key_button{
 	-fx-background-color: -fx-first;
 }
 
-.key_action_button {
-	-fx-pref-width: 100;	
+.key_container_grid {
+	-fx-vgap: 5;
+	-fx-hgap: 5;
+	-fx-padding: 10;
 }
+
+.text-area {
+	-fx-border-width: 2;
+}
+
+.key_action_buttons {
+	-fx-alignment: center ;
+}
+
+.key_action_buttons > .button {
+	-fx-pref-width: 100;
+} 
+
+
 
 .spinner > .increment-arrow-button, .decrement-arrow-button{
 	-fx-background-color: -fx-first; 
 }
 
-.spinner > .increment-arrow-button > .increment-arrow{
+.spinner > .increment-arrow-button > .increment-arrow {
 	-fx-background-color: #fff;
 }
 
@@ -272,12 +292,14 @@
 	-fx-padding: 10;
 }
 
-.config_button {
-	-fx-background-color: -fx-first;
-}
 
 .config_button_container {
 	-fx-spacing: 5;
+}
+
+
+.config_button {
+	-fx-background-color: -fx-first;
 }
 
 .config_action_button {
@@ -297,10 +319,9 @@
 	-fx-text-fill: #000;
 }
 
-.modal_container .button {
+.modal_action_buttons {
 	-fx-background-color: -fx-first;
 }
-
 
 
 

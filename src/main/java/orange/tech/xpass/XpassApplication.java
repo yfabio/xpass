@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javafx.application.Application;
 import net.synedra.validatorfx.Validator;
@@ -27,7 +28,10 @@ public class XpassApplication {
 		return new Validator();
 	} 
 	
-	
+	@Bean
+	public org.springframework.validation.Validator validatorFactory() {
+		return new LocalValidatorFactoryBean();
+	}  
 	
 	
 	

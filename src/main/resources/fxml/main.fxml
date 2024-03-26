@@ -62,7 +62,7 @@
 												</AnchorPane>
 											</children>
 										</VBox>
-										<PlaceHolder fx:id="placeHolder" />
+										<PlaceHolder fx:id="placeHolder"  alignment="CENTER"/>
 									</items>
 								</SplitPane>
 							</center>

@@ -93,11 +93,11 @@ public class Key {
 	}
 
 	public void setData(Key key) {
-		setId(key.getId());
-		setDate(key.getDate());
-		setNote(key.getNote());
-		setUsername(key.getUsername());
-		setPassword(key.getPassword());
+		id.setValue(key.getId());
+		date.setValue(key.getDate());
+		note.setValue(key.getNote());
+		username.setValue(key.getUsername());
+		password.setValue(key.getPassword());
 	}
 	
 	public void reset() {

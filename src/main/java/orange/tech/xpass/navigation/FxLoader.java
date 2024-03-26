@@ -20,7 +20,7 @@ public class FxLoader {
 		REGISTER("/fxml/register.fxml"), 
 		MAIN("/fxml/main.fxml"), 
 		HOME("/fxml/home.fxml"), 
-		KEY("/fxml/key.fxml"), 
+		KEY("/fxml/key.fxml"),		 
 		CONFIG("/fxml/config.fxml"), 
 		DELETE_MODAL("/fxml/deleteModal.fxml"),
 		PROCEED_MODAL("/fxml/proceedModal.fxml"); 
