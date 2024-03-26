@@ -29,7 +29,7 @@ public class Key implements Serializable {
 	private LocalDate date;
 	
 	@NotBlank(message = "note is required")
-	@Column(length = 150)	
+	@Column(length = 1000)	
 	private String note;
 	
 	@NotBlank(message = "username is required")
