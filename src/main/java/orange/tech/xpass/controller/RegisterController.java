@@ -7,8 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,7 +17,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.navigation.FxLoader;
 import orange.tech.xpass.navigation.FxLoader.Url;
@@ -27,7 +24,7 @@ import orange.tech.xpass.property.Person;
 import orange.tech.xpass.repository.PersonRepository;
 
 @Component
-public class RegisterController extends BaseController implements InvalidationListener {
+public class RegisterController extends BaseController {
 
 	@FXML
 	private TextField username;
@@ -53,20 +50,16 @@ public class RegisterController extends BaseController implements InvalidationLi
 	private PersonRepository personRepository;
 
 	private ModelMapper modelMapper;
-	
-	private Validator validator;
-	
+		
 	private Zippo zippo;
 
 	public RegisterController(FxLoader fxLoader, 
 			PersonRepository personRepository,
-			ModelMapper modelMapper,
-			Validator validator,
+			ModelMapper modelMapper,		
 			Zippo zippo) {
 		this.fxLoader = fxLoader;
 		this.personRepository = personRepository;
-		this.modelMapper = modelMapper;
-		this.validator = validator;
+		this.modelMapper = modelMapper;		
 		this.zippo = zippo;
 	}
 
@@ -75,12 +68,6 @@ public class RegisterController extends BaseController implements InvalidationLi
 		register.setOnAction(evt -> onRegisterHandler(evt));
 		cancel.setOnAction(evt -> onCancelHandler(evt));
 		
-		username.textProperty().addListener(this);
-		password.textProperty().addListener(this);
-		confirmPassword.textProperty().addListener(this);
-		
-		
-		
 	}
 
 	private void onCancelHandler(ActionEvent evt) {
@@ -88,53 +75,14 @@ public class RegisterController extends BaseController implements InvalidationLi
 	}
 
 	private void onRegisterHandler(ActionEvent evt) {
-				
-		validator.createCheck()
-	     .dependsOn("username",username.textProperty())
-	     .withMethod(c -> {
-	    	 String username = c.get("username");
-	    	 if(username.isBlank()) {
-	    		 c.error("Please type username");
-	    	 }
-	     }).decorates(username).immediateClear();
-		
-		if(validateAndDisplay()) {return;}
-						
-		validator.createCheck()
-	     .dependsOn("password",password.textProperty())
-	     .withMethod(c -> {
-	    	 String password = c.get("password");
-	    	 if(password.isBlank()) {
-	    		 c.error("Password is required");
-	    	 }
-	     }).decorates(password).immediateClear();
-		
-		if(validateAndDisplay()) {return;}
-		
-		validator.createCheck()
-	     .dependsOn("confirm", confirmPassword.textProperty())
-	     .withMethod(c -> {
-	    	String confirm = c.get("confirm");
-	    	String pass = password.getText();
-	    	if(confirm.isBlank()) {
-	    		c.error("Confirm Passowrd is required");
-	    	}else if(!confirm.equals(pass)) {
-	    		c.error("Passwords do not match");
-	    	}
-	     }).decorates(confirmPassword).immediateClear();
-							
-		if(validateAndDisplay()) {return;}
-		
+					
 		var value = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
 
 		try {
 			
 			value.setPassword(zippo.encrypt(value.getPassword()));
 			
-			personRepository.save(value);
-			username.textProperty().removeListener(this);
-			password.textProperty().removeListener(this);
-			confirmPassword.textProperty().removeListener(this);		
+			personRepository.save(value);				
 			login(evt);
 		} catch (DataIntegrityViolationException e) {
 			error.setText("Username %s already exists".formatted(username.getText()));
@@ -158,23 +106,7 @@ public class RegisterController extends BaseController implements InvalidationLi
 		}
 	}
 
-	@Override
-	public void invalidated(Observable observable) {
-		if(!error.getText().isBlank()) {error.setText("");}		
-	}
-
 	
-	private boolean validateAndDisplay() {
-		if(!validator.validate()) {				
-			validator.getValidationResult()
-			 .getMessages()
-			 .forEach(c -> {
-				 error.setText(c.getText());
-			 });	
-			return true;
-		}
-		return false;
-	}
-	
+		
 	
 }

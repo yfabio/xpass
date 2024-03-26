@@ -8,8 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Window;
-import net.synedra.validatorfx.Validator;
 import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.fx.PasswordField;
 import orange.tech.xpass.modal.OnModalAction;
@@ -30,7 +27,7 @@ import orange.tech.xpass.security.ApplicationLoggedUser;
 import orange.tech.xpass.util.ImageUtil;
 
 @Component
-public class ConfigController extends BaseController implements InvalidationListener {
+public class ConfigController extends BaseController {
 
 	@FXML
 	private TextField username;
@@ -78,20 +75,18 @@ public class ConfigController extends BaseController implements InvalidationList
 	
 	private ApplicationContext ctx;
 	
-	private Validator validator;
+	
 	
 	private Zippo zippo;
 
 	public ConfigController(PersonRepository personRepository,
 			ApplicationLoggedUser applicationLoggedUser,
-			ModelMapper modelMapper,
-			Validator validator,
+			ModelMapper modelMapper,			
 			Zippo zippo,
 			NavigationService navigationService,
 			ApplicationContext ctx) {
 		this.personRepository = personRepository;
-		this.applicationLoggedUser = applicationLoggedUser;
-		this.validator = validator;
+		this.applicationLoggedUser = applicationLoggedUser;		
 		this.modelMapper = modelMapper;
 		this.navigationService = navigationService;
 		this.ctx = ctx;
@@ -120,8 +115,6 @@ public class ConfigController extends BaseController implements InvalidationList
 		
 		password.disableProperty().bind(password.hideProperty().not());
 		
-		username.textProperty().addListener(this);
-		password.textProperty().addListener(this);
 
 	}
 
@@ -134,39 +127,12 @@ public class ConfigController extends BaseController implements InvalidationList
 		}
 	}
 
-	private void onSaveHandler() {
-				
-		validator.createCheck()
-	     .dependsOn("username",username.textProperty())
-	     .withMethod(c -> {
-	    	 String username = c.get("username");
-	    	 if(username.isBlank()) {
-	    		 c.error("Please type username");
-	    	 }
-	     }).decorates(username).immediateClear();
-		
-		if(validateAndDisplay()) {return;}
-		
-		validator.createCheck()
-	     .dependsOn("password",password.textProperty())
-	     .withMethod(c -> {
-	    	 String password = c.get("password");
-	    	 if(password.isBlank()) {
-	    		 c.error("Password is required");
-	    	 }else if(password.length() < 4) {
-	    		 c.error("Password length minimum 4");
-	    	 }
-	     }).decorates(password).immediateClear();
-		
-		if(validateAndDisplay()) {return;}
-		
+	private void onSaveHandler() {		
 		
 		try {
 			var mapped = modelMapper.map(person,orange.tech.xpass.entity.Person.class);			
 			mapped.setPassword(zippo.encrypt(mapped.getPassword()));			
-			applicationLoggedUser.replace(personRepository.save(mapped));
-			username.textProperty().removeListener(this);
-			password.textProperty().removeListener(this);
+			applicationLoggedUser.replace(personRepository.save(mapped));			
 			OnUpdateMainUI ui = ctx.getBean(MainController.class);
 			ui.update(modelMapper.map(applicationLoggedUser.loggedUser(), Person.class));		
 			navigation.set(navigationService.getNavigator(HomeController.class));
@@ -180,21 +146,7 @@ public class ConfigController extends BaseController implements InvalidationList
 		ImageUtil.openFileDialog(window,person::setPhoto).ifPresent(profile::setImage);
 	}
 	
-	private boolean validateAndDisplay() {
-		if(!validator.validate()) {				
-			validator.getValidationResult()
-			 .getMessages()
-			 .forEach(c -> {
-				 error.setText(c.getText());
-			 });	
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void invalidated(Observable observable) {
-		if(!error.getText().isBlank()) {error.setText("");}		
-	}
+	
+	
 
 }

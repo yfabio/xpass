@@ -107,12 +107,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.synedra</groupId>
-			<artifactId>validatorfx</artifactId>
-			<version>${validatorfx.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
