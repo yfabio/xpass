@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import jakarta.validation.Validator;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,13 +76,14 @@ public class ConfigController extends BaseController {
 	
 	private ApplicationContext ctx;
 	
-	
+	private Validator validator;
 	
 	private Zippo zippo;
 
 	public ConfigController(PersonRepository personRepository,
 			ApplicationLoggedUser applicationLoggedUser,
-			ModelMapper modelMapper,			
+			ModelMapper modelMapper,
+			Validator validator,
 			Zippo zippo,
 			NavigationService navigationService,
 			ApplicationContext ctx) {
@@ -91,6 +93,7 @@ public class ConfigController extends BaseController {
 		this.navigationService = navigationService;
 		this.ctx = ctx;
 		this.zippo = zippo;
+		this.validator = validator;
 	}
 
 	@Override
@@ -130,14 +133,28 @@ public class ConfigController extends BaseController {
 	private void onSaveHandler() {		
 		
 		try {
-			var mapped = modelMapper.map(person,orange.tech.xpass.entity.Person.class);			
-			mapped.setPassword(zippo.encrypt(mapped.getPassword()));			
-			applicationLoggedUser.replace(personRepository.save(mapped));			
-			OnUpdateMainUI ui = ctx.getBean(MainController.class);
-			ui.update(modelMapper.map(applicationLoggedUser.loggedUser(), Person.class));		
-			navigation.set(navigationService.getNavigator(HomeController.class));
+			
+			var value = modelMapper.map(person,orange.tech.xpass.entity.Person.class);
+			
+			var set = validator.validate(value);
+			
+			if(set.size()>0) {
+				StringBuilder sb = messages(set);
+				error.setText(sb.toString());
+				resetError(error);
+			}else {
+				value.setPassword(zippo.encrypt(value.getPassword()));			
+				applicationLoggedUser.replace(personRepository.save(value));			
+				OnUpdateMainUI ui = ctx.getBean(MainController.class);
+				ui.update(modelMapper.map(applicationLoggedUser.loggedUser(), Person.class));		
+				navigation.set(navigationService.getNavigator(HomeController.class));
+			}
+			
+			
+			
 		} catch (Exception e) {
 			error.setText("unable to save key");
+			resetError(error);
 		}
 	}
 

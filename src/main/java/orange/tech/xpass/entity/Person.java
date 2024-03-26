@@ -14,6 +14,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "persons")
@@ -30,6 +31,7 @@ public class Person implements Serializable {
 	private String username;
 	
 	@NotBlank(message = "password is required")
+	@Size(min = 4, message = "maximum length 4")
 	@Column(length = 68)
 	private String password;
 	

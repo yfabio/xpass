@@ -23,11 +23,13 @@ public abstract class BaseController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {}
 	
-	private ScheduledExecutorService job = Executors.newSingleThreadScheduledExecutor();
+	private ScheduledExecutorService job;
 	
 	
 	public void resetError(Label lb) {
+		job = Executors.newSingleThreadScheduledExecutor();
 		job.schedule(() -> Platform.runLater(() -> lb.setText("")), 2, TimeUnit.SECONDS);
+		job.shutdown();
 	}
 	
 	protected StringBuilder messages(Set<ConstraintViolation<orange.tech.xpass.entity.Person>> set) {
