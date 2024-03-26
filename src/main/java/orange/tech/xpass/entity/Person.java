@@ -31,7 +31,7 @@ public class Person implements Serializable {
 	private String username;
 	
 	@NotBlank(message = "password is required")
-	@Size(min = 4, message = "maximum length 4")
+	@Size(min = 4, message = "minimum length 4")
 	@Column(length = 68)
 	private String password;
 	

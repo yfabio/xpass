@@ -11,6 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "keys")
@@ -22,14 +25,19 @@ public class Key implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 		
+	@NotNull(message = "date is required")
 	private LocalDate date;
 	
+	@NotBlank(message = "note is required")
 	@Column(length = 150)	
 	private String note;
 	
+	@NotBlank(message = "username is required")
 	@Column(length = 100)	
 	private String username; 
 	
+	@Size(min = 4, message = "minimum length 4")
+	@NotBlank(message = "password is required")
 	@Column(length = 68)	
 	private String password;
 	

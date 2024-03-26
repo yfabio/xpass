@@ -2,16 +2,16 @@ package orange.tech.xpass.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -104,7 +104,11 @@ public class KeyController extends BaseController implements CallBackController<
 	
 	private Zippo zippo;
 	
-	
+	private InvalidationListener dateErrorListener;
+	private InvalidationListener userEmailErrorListener;
+	private InvalidationListener noteErrorListener;
+	private InvalidationListener passwordErrorListener;
+
 	
 	public KeyController(NavigationService navigationService, KeyRepository keyRepository, ModelMapper modelMapper,
 			ApplicationLoggedUser applicationLoggedUser,Zippo zippo,jakarta.validation.Validator validator) {
@@ -137,7 +141,16 @@ public class KeyController extends BaseController implements CallBackController<
 		generate.setOnAction(evt -> generatePassword());
 		save.setOnAction(evt -> onSaveHandler());
 		Platform.runLater(date::requestFocus);
-
+		
+		dateErrorListener = e -> dateError.setText("");
+		userEmailErrorListener = e -> userEmailError.setText("");
+		noteErrorListener = e -> noteError.setText("");
+		passwordErrorListener = e -> passwordError.setText("");
+		
+		date.valueProperty().addListener(dateErrorListener);
+		username.textProperty().addListener(userEmailErrorListener);
+		note.textProperty().addListener(noteErrorListener);
+		password.textProperty().addListener(passwordErrorListener);
 						
 		
 	}
@@ -146,28 +159,28 @@ public class KeyController extends BaseController implements CallBackController<
 		
 
 		try {
+						
 			var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);
-			
-			Set<ConstraintViolation<orange.tech.xpass.entity.Key>> set = validator.validate(value);
-			
-			if(set.size() > 0) {
-				set.forEach(e -> {
-					
-				});
+								
+			if(isKeyValid(value)) {
+				return;
+			}else {
+				value.setPerson(applicationLoggedUser.loggedUser());
+
+				value.setPassword(zippo.encrypt(value.getPassword()));
+
+				keyRepository.save(value);
+				
+				date.valueProperty().removeListener(dateErrorListener);
+				username.textProperty().removeListener(userEmailErrorListener);
+				note.textProperty().removeListener(noteErrorListener);
+				password.textProperty().removeListener(passwordErrorListener);
+
+				key.reset();
+				Platform.runLater(date::requestFocus);	
 			}
 			
 			
-			value.setPerson(applicationLoggedUser.loggedUser());
-
-			value.setPassword(zippo.encrypt(value.getPassword()));
-
-			keyRepository.save(value);
-
-	
-
-			key.reset();
-			Platform.runLater(date::requestFocus);
-
 		} catch (Exception e) {			
 		}
 	}
@@ -184,6 +197,38 @@ public class KeyController extends BaseController implements CallBackController<
 		key.setData(sup.get());
 	}
 
+	
+	private boolean isKeyValid(orange.tech.xpass.entity.Key value) {
+				
+		var isDateValid = validator.validateProperty(value,"date");
+		var isUsernameValid = validator.validateProperty(value,"username");
+		var isNoteValid  =validator.validateProperty(value,"note");
+		var isPasswordValid = validator.validateProperty(value,"password");
+		
+		if(!isDateValid.isEmpty()) {
+			isDateValid.forEach(c -> dateError.setText(c.getMessage()));
+			return true;
+		}
+		
+		if(!isUsernameValid.isEmpty()) {
+			isUsernameValid.forEach(c -> userEmailError.setText(c.getMessage()));
+			return true;
+		}
+		
+		if(!isNoteValid.isEmpty()) {
+			isNoteValid.forEach(c -> noteError.setText(c.getMessage()));
+			return true;
+		}
+		
+		if(!isPasswordValid.isEmpty()) {
+			var messages =isPasswordValid.stream().map(c -> c.getMessage()).collect(Collectors.joining(","));
+			passwordError.setText(messages);
+			return true;
+		}
+		
+		
+		return false;
+	}
 	
 
 }
