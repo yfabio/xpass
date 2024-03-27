@@ -158,7 +158,7 @@ public class KeyController extends BaseController implements CallBackController<
 		title.textProperty().addListener(titleErrorListener);
 		username.textProperty().addListener(userEmailErrorListener);
 		note.textProperty().addListener(noteErrorListener);
-		password.textProperty().addListener(passwordErrorListener);		
+		password.textProperty().addListener(passwordErrorListener);
 	}
 
 	private void onSaveHandler() {
@@ -175,7 +175,6 @@ public class KeyController extends BaseController implements CallBackController<
 				value.setPassword(zippo.encrypt(value.getPassword()));
 
 				keyRepository.save(value);
-
 				date.valueProperty().removeListener(dateErrorListener);
 				title.textProperty().removeListener(titleErrorListener);
 				username.textProperty().removeListener(userEmailErrorListener);
@@ -187,6 +186,7 @@ public class KeyController extends BaseController implements CallBackController<
 			}
 
 		} catch (Exception e) {
+			showExceptionDialog(e);
 		}
 	}
 
@@ -196,7 +196,7 @@ public class KeyController extends BaseController implements CallBackController<
 	}
 
 	@Override
-	public void content(Supplier<Key> sup) {		
+	public void content(Supplier<Key> sup) {
 		key.setData(sup.get());
 	}
 
@@ -212,7 +212,7 @@ public class KeyController extends BaseController implements CallBackController<
 			isDateValid.forEach(c -> dateError.setText(c.getMessage()));
 			return true;
 		}
-		
+
 		if (!isTitleValid.isEmpty()) {
 			isTitleValid.forEach(c -> titleError.setText(c.getMessage()));
 			return true;
