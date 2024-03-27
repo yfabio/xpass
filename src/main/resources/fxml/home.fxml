@@ -51,9 +51,9 @@
 								<TextFieldTableCellFactory />
 							</cellFactory>
 						</TableColumn>
-						<TableColumn text="Note">
+						<TableColumn text="title">
 							<cellValueFactory>
-								<PropertyValueFactory property="note" />
+								<PropertyValueFactory property="title" />
 							</cellValueFactory>
 							<cellFactory>
 								<TextFieldTableCellFactory />
@@ -67,6 +67,14 @@
 								<TextFieldTableCellFactory />
 							</cellFactory>
 						</TableColumn>
+						<TableColumn text="Note">
+							<cellValueFactory>
+								<PropertyValueFactory property="note" />
+							</cellValueFactory>
+							<cellFactory>
+								<TextFieldTableCellFactory />
+							</cellFactory>
+						</TableColumn>						
 					</columns>
 					<columnResizePolicy>
 						<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

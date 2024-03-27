@@ -38,6 +38,12 @@ public class KeyController extends BaseController implements CallBackController<
 	private DatePicker date;
 
 	@FXML
+	private Label titleError;
+
+	@FXML
+	private TextField title;
+
+	@FXML
 	private TextArea note;
 
 	@FXML
@@ -101,20 +107,20 @@ public class KeyController extends BaseController implements CallBackController<
 	private ApplicationLoggedUser applicationLoggedUser;
 
 	private Validator validator;
-	
+
 	private Zippo zippo;
-	
+
 	private InvalidationListener dateErrorListener;
+	private InvalidationListener titleErrorListener;
 	private InvalidationListener userEmailErrorListener;
 	private InvalidationListener noteErrorListener;
 	private InvalidationListener passwordErrorListener;
 
-	
 	public KeyController(NavigationService navigationService, KeyRepository keyRepository, ModelMapper modelMapper,
-			ApplicationLoggedUser applicationLoggedUser,Zippo zippo,jakarta.validation.Validator validator) {
+			ApplicationLoggedUser applicationLoggedUser, Zippo zippo, jakarta.validation.Validator validator) {
 		this.navigationService = navigationService;
 		this.keyRepository = keyRepository;
-		this.modelMapper = modelMapper;		
+		this.modelMapper = modelMapper;
 		this.applicationLoggedUser = applicationLoggedUser;
 		this.zippo = zippo;
 		this.validator = validator;
@@ -141,51 +147,49 @@ public class KeyController extends BaseController implements CallBackController<
 		generate.setOnAction(evt -> generatePassword());
 		save.setOnAction(evt -> onSaveHandler());
 		Platform.runLater(date::requestFocus);
-		
+
 		dateErrorListener = e -> dateError.setText("");
+		titleErrorListener = e -> titleError.setText("");
 		userEmailErrorListener = e -> userEmailError.setText("");
 		noteErrorListener = e -> noteError.setText("");
 		passwordErrorListener = e -> passwordError.setText("");
-		
+
 		date.valueProperty().addListener(dateErrorListener);
+		title.textProperty().addListener(titleErrorListener);
 		username.textProperty().addListener(userEmailErrorListener);
 		note.textProperty().addListener(noteErrorListener);
 		password.textProperty().addListener(passwordErrorListener);
-						
-		
+
 	}
 
 	private void onSaveHandler() {
-		
 
 		try {
-						
+
 			var value = modelMapper.map(key, orange.tech.xpass.entity.Key.class);
-								
-			if(isKeyValid(value)) {
+
+			if (isKeyValid(value)) {
 				return;
-			}else {
+			} else {
 				value.setPerson(applicationLoggedUser.loggedUser());
 
 				value.setPassword(zippo.encrypt(value.getPassword()));
 
 				keyRepository.save(value);
-				
+
 				date.valueProperty().removeListener(dateErrorListener);
+				title.textProperty().removeListener(titleErrorListener);
 				username.textProperty().removeListener(userEmailErrorListener);
 				note.textProperty().removeListener(noteErrorListener);
 				password.textProperty().removeListener(passwordErrorListener);
 
 				key.reset();
-				Platform.runLater(date::requestFocus);	
+				Platform.runLater(date::requestFocus);
 			}
-			
-			
-		} catch (Exception e) {			
+
+		} catch (Exception e) {
 		}
 	}
-
-	
 
 	private void generatePassword() {
 		password.textProperty().setValue(builder.length(spinner.getValue()).lower(lowerLetters.isSelected())
@@ -197,38 +201,41 @@ public class KeyController extends BaseController implements CallBackController<
 		key.setData(sup.get());
 	}
 
-	
 	private boolean isKeyValid(orange.tech.xpass.entity.Key value) {
-				
-		var isDateValid = validator.validateProperty(value,"date");
-		var isUsernameValid = validator.validateProperty(value,"username");
-		var isNoteValid  =validator.validateProperty(value,"note");
-		var isPasswordValid = validator.validateProperty(value,"password");
-		
-		if(!isDateValid.isEmpty()) {
+
+		var isDateValid = validator.validateProperty(value, "date");
+		var isTitleValid = validator.validateProperty(value, "title");
+		var isUsernameValid = validator.validateProperty(value, "username");
+		var isNoteValid = validator.validateProperty(value, "note");
+		var isPasswordValid = validator.validateProperty(value, "password");
+
+		if (!isDateValid.isEmpty()) {
 			isDateValid.forEach(c -> dateError.setText(c.getMessage()));
 			return true;
 		}
 		
-		if(!isUsernameValid.isEmpty()) {
+		if (!isTitleValid.isEmpty()) {
+			isTitleValid.forEach(c -> titleError.setText(c.getMessage()));
+			return true;
+		}
+
+		if (!isUsernameValid.isEmpty()) {
 			isUsernameValid.forEach(c -> userEmailError.setText(c.getMessage()));
 			return true;
 		}
-		
-		if(!isNoteValid.isEmpty()) {
+
+		if (!isNoteValid.isEmpty()) {
 			isNoteValid.forEach(c -> noteError.setText(c.getMessage()));
 			return true;
 		}
-		
-		if(!isPasswordValid.isEmpty()) {
-			var messages =isPasswordValid.stream().map(c -> c.getMessage()).collect(Collectors.joining(","));
+
+		if (!isPasswordValid.isEmpty()) {
+			var messages = isPasswordValid.stream().map(c -> c.getMessage()).collect(Collectors.joining(","));
 			passwordError.setText(messages);
 			return true;
 		}
-		
-		
+
 		return false;
 	}
-	
 
 }

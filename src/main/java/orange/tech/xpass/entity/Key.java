@@ -28,6 +28,10 @@ public class Key implements Serializable {
 	@NotNull(message = "date is required")
 	private LocalDate date;
 	
+	@NotBlank(message = "title is required")
+	@Column(length = 100)
+	private String title;
+	
 	@NotBlank(message = "note is required")
 	@Column(length = 1000)	
 	private String note;
@@ -59,6 +63,14 @@ public class Key implements Serializable {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getNote() {

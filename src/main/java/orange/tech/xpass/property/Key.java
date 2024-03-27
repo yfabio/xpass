@@ -15,6 +15,8 @@ public class Key {
 
 	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
 
+	private StringProperty title = new SimpleStringProperty();
+
 	private StringProperty note = new SimpleStringProperty();
 
 	private StringProperty username = new SimpleStringProperty();
@@ -54,6 +56,18 @@ public class Key {
 
 	public void setDate(final LocalDate date) {
 		this.dateProperty().set(date);
+	}
+
+	public StringProperty titleProperty() {
+		return this.title;
+	}
+
+	public String getTitle() {
+		return this.titleProperty().get();
+	}
+
+	public void setTitle(final String title) {
+		this.titleProperty().set(title);
 	}
 
 	public StringProperty noteProperty() {
@@ -99,12 +113,12 @@ public class Key {
 		username.setValue(key.getUsername());
 		password.setValue(key.getPassword());
 	}
-	
+
 	public void reset() {
 		date.set(null);
 		note.set("");
 		username.set("");
-		password.set("");		
+		password.set("");
 	}
 
 	@Override

@@ -12,8 +12,8 @@ public interface KeyRepository extends JpaRepository<Key, Long> {
 	
 	List<Key> findByNoteContains(String note);
 	
-	@Query("SELECT k FROM Key k WHERE LOWER(k.username) LIKE %?1% AND k.person.id = ?2")
-	List<Key> listPersonKeys(String note, Long id);
+	@Query("SELECT k FROM Key k WHERE LOWER(k.title) LIKE LOWER(CONCAT('%',?1,'%')) AND k.person.id = ?2")	
+	List<Key> listPersonKeys(String keyword, Long id);
 	
 	List<Key> findAllByPerson(Person person);
 }

@@ -19,8 +19,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import orange.tech.xpass.fx.PasswordField?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import orange.tech.xpass.property.Key?>
 <?import orange.tech.xpass.fx.Binder?>
+<?import orange.tech.xpass.property.Key?>
 
 <StackPane stylesheets="@../css/style.css"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -39,7 +39,6 @@
 						<ColumnConstraints hgrow="SOMETIMES" />
 						<ColumnConstraints hgrow="SOMETIMES" />
 						<ColumnConstraints hgrow="SOMETIMES" />
-						<ColumnConstraints hgrow="SOMETIMES" />
 					</columnConstraints>
 					<rowConstraints>
 						<RowConstraints valignment="CENTER" />
@@ -47,7 +46,7 @@
 						<RowConstraints />
 					</rowConstraints>
 					<children>
-						<VBox GridPane.columnSpan="2">
+						<VBox>
 							<children>
 								<HBox spacing="5.0">
 									<children>
@@ -67,7 +66,27 @@
 								</AnchorPane>
 							</children>
 						</VBox>
-						<VBox GridPane.columnIndex="2" GridPane.columnSpan="2">
+						<VBox GridPane.columnIndex="1">
+							<children>
+								<HBox spacing="5.0">
+									<children>
+										<Label text="Title" />
+										<Label fx:id="titleError" styleClass="key_error_label" />
+									</children>
+								</HBox>
+								<AnchorPane>
+									<children>
+										<TextField fx:id="title" promptText="Title"
+											AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+											AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+										<fx:define>
+											<Binder o1="$key"  p1="title" o2="$title" p2="text" />
+										</fx:define>
+									</children>
+								</AnchorPane>
+							</children>
+						</VBox>
+						<VBox GridPane.columnIndex="2">
 							<children>
 								<HBox spacing="5.0">
 									<children>
