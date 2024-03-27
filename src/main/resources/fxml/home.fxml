@@ -28,7 +28,8 @@
 										<Label text="Search" />
 										<HBox styleClass="home_search">
 											<children>
-												<TextField fx:id="txtSearch" HBox.hgrow="ALWAYS" promptText="search by note" />
+												<TextField fx:id="txtSearch"
+													promptText="search by note" HBox.hgrow="ALWAYS" />
 											</children>
 											<VBox.margin>
 												<Insets bottom="5.0" />
@@ -62,14 +63,6 @@
 						<TableColumn text="Username">
 							<cellValueFactory>
 								<PropertyValueFactory property="username" />
-							</cellValueFactory>
-							<cellFactory>
-								<TextFieldTableCellFactory />
-							</cellFactory>
-						</TableColumn>
-						<TableColumn text="Note">
-							<cellValueFactory>
-								<PropertyValueFactory property="note" />
 							</cellValueFactory>
 							<cellFactory>
 								<TextFieldTableCellFactory />

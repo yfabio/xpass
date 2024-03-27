@@ -159,17 +159,25 @@
 }
 
 
-
-
-#keys .scroll-bar * {
-    -fx-background-color: -fx-none;
-    -fx-padding: 0;
+#keys .scroll-bar:horizontal *, .scroll-bar:vertical * {
+	-fx-background-color: #fff;	
+	-fx-padding: 0;
 }
+
+#keys .virtual-flow:focus-within {
+	-fx-padding: 0;
+}
+
+
+#keys .corner {
+	-fx-background-color: #fff;
+}
+
 
 .home {
 	-fx-background-color: #fff;
 	-fx-spacing: 5;
-	-fx-padding: 8	
+	-fx-padding: 8;	
 }
 
 .home > .label {
