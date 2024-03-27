@@ -158,8 +158,7 @@ public class KeyController extends BaseController implements CallBackController<
 		title.textProperty().addListener(titleErrorListener);
 		username.textProperty().addListener(userEmailErrorListener);
 		note.textProperty().addListener(noteErrorListener);
-		password.textProperty().addListener(passwordErrorListener);
-
+		password.textProperty().addListener(passwordErrorListener);		
 	}
 
 	private void onSaveHandler() {
@@ -197,7 +196,7 @@ public class KeyController extends BaseController implements CallBackController<
 	}
 
 	@Override
-	public void content(Supplier<Key> sup) {
+	public void content(Supplier<Key> sup) {		
 		key.setData(sup.get());
 	}
 

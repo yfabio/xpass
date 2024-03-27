@@ -65,10 +65,11 @@ public class HomeController extends BaseController  {
 	public void initialize(URL url, ResourceBundle rb) {
 			
 		var col  = keyRepository.findAllByPerson(applicationLoggedUser.loggedUser());		
-		var mapped = col.stream().map(e -> {
-			e.setPassword(zippo.decrypt(e.getPassword()));
-			return e;
-		}).map(e -> modelMapper.map(e, Key.class)).toList();
+		var mapped = col.stream()
+				.map(e -> {
+					e.setPassword(zippo.decrypt(e.getPassword()));
+					return  modelMapper.map(e, Key.class);
+				}).toList();
 						
 		TableColumn<Key, String> passwordColumn = new TableColumn<>("Password");
 		passwordColumn.setCellFactory(c -> new PasswordFieldTableCell<>(canProceed -> {
@@ -106,9 +107,11 @@ public class HomeController extends BaseController  {
 	}
 
 	private void onSearchHandled() {			
-		var col = keyRepository.listPersonKeys(txtSearch.getText(),
-				applicationLoggedUser.loggedUser().getId());	
-		var mapped = col.stream().map(e -> modelMapper.map(e, Key.class)).toList();
+		var col = keyRepository.listPersonKeys(txtSearch.getText(),applicationLoggedUser.loggedUser().getId());	
+		var mapped = col.stream().map(e ->{
+			e.setPassword(zippo.decrypt(e.getPassword()));
+			return  modelMapper.map(e, Key.class);
+		}).toList();
 		keys.setItems(FXCollections.observableArrayList(mapped));	
 	}
 
