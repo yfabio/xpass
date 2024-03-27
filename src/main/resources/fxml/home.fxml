@@ -29,7 +29,7 @@
 										<HBox styleClass="home_search">
 											<children>
 												<TextField fx:id="txtSearch"
-													promptText="search by note" HBox.hgrow="ALWAYS" />
+													promptText="search by title" HBox.hgrow="ALWAYS" />
 											</children>
 											<VBox.margin>
 												<Insets bottom="5.0" />
