@@ -109,6 +109,7 @@ public class Key {
 	public void setData(Key key) {
 		id.setValue(key.getId());
 		date.setValue(key.getDate());
+		title.setValue(key.getTitle());
 		note.setValue(key.getNote());
 		username.setValue(key.getUsername());
 		password.setValue(key.getPassword());
