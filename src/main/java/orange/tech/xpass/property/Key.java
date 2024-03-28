@@ -117,8 +117,9 @@ public class Key {
 
 	public void reset() {
 		date.set(null);
-		note.set("");
+		title.set("");
 		username.set("");
+		note.set("");
 		password.set("");
 	}
 
