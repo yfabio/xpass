@@ -49,8 +49,7 @@ public class ApplicationLoggedUserImpl implements ApplicationLoggedUser {
 			 }			
 		}else {
 			throw new ApplicationException("user not found!");
-		}
-		
+		}		
 	}
 
 	

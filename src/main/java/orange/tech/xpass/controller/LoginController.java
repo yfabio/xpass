@@ -127,6 +127,8 @@ public class LoginController extends BaseController implements CallBackControlle
 		} catch (ApplicationException e) {
 			error.setText(e.getMessage());
 			resetError(error);
+		}catch (Exception e) {
+			showExceptionDialog(e);
 		}
 
 	}
