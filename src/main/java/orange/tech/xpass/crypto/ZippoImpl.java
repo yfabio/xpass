@@ -11,7 +11,7 @@ public class ZippoImpl implements Zippo {
 	private final String mySecretKey;
 			
 	public ZippoImpl(Environment env) {		
-		mySecretKey = env.getProperty("MY_SECRET_KEY");			
+		mySecretKey = env.getProperty("SECRET_KEY");			
 	}
 	
 	@Override
