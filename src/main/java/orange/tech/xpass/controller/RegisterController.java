@@ -110,6 +110,8 @@ public class RegisterController extends BaseController {
 		} catch (ApplicationException e) {
 			error.setText(e.getMessage());
 			resetError(error);
+		}catch (Exception e) {
+			showExceptionDialog(e);
 		}
 
 	}
