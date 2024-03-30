@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.Validator;
@@ -25,6 +26,7 @@ import orange.tech.xpass.builder.Builder;
 import orange.tech.xpass.builder.PasswordBuilder;
 import orange.tech.xpass.crypto.Zippo;
 import orange.tech.xpass.fx.PasswordField;
+import orange.tech.xpass.modal.OnModalAction;
 import orange.tech.xpass.navigation.CallBackController;
 import orange.tech.xpass.navigation.NavigationService;
 import orange.tech.xpass.property.Key;
@@ -96,6 +98,8 @@ public class KeyController extends BaseController implements CallBackController<
 	@FXML
 	private Key key;
 
+	private ApplicationContext ctx;
+	
 	private NavigationService navigationService;
 
 	private KeyRepository keyRepository;
@@ -117,11 +121,12 @@ public class KeyController extends BaseController implements CallBackController<
 	private InvalidationListener passwordErrorListener;
 
 	public KeyController(NavigationService navigationService, KeyRepository keyRepository, ModelMapper modelMapper,
-			ApplicationLoggedUser applicationLoggedUser, Zippo zippo, jakarta.validation.Validator validator) {
+			ApplicationLoggedUser applicationLoggedUser,ApplicationContext ctx, Zippo zippo, jakarta.validation.Validator validator) {
 		this.navigationService = navigationService;
 		this.keyRepository = keyRepository;
 		this.modelMapper = modelMapper;
 		this.applicationLoggedUser = applicationLoggedUser;
+		this.ctx = ctx;
 		this.zippo = zippo;
 		this.validator = validator;
 	}
@@ -130,7 +135,7 @@ public class KeyController extends BaseController implements CallBackController<
 	public void initialize(URL url, ResourceBundle rb) {
 
 		pwdHide.graphicProperty().bind(Bindings.when(password.hideProperty()).then(open).otherwise(close));
-		pwdHide.setOnAction(evt -> password.toggle());
+		pwdHide.setOnAction(evt -> onRevealPassword());
 
 		save.setOnAction(evt -> {
 			System.out.println(key);
@@ -159,6 +164,15 @@ public class KeyController extends BaseController implements CallBackController<
 		username.textProperty().addListener(userEmailErrorListener);
 		note.textProperty().addListener(noteErrorListener);
 		password.textProperty().addListener(passwordErrorListener);
+	}
+
+	private void onRevealPassword() {
+		if(!password.hideProperty().get()) {
+			OnModalAction modal = ctx.getBean(MainController.class);
+			modal.canProceed(password::toggle);
+		}else {
+			password.toggle();
+		}
 	}
 
 	private void onSaveHandler() {
