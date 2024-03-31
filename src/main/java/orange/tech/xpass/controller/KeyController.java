@@ -167,9 +167,13 @@ public class KeyController extends BaseController implements CallBackController<
 	}
 
 	private void onRevealPassword() {
-		if(!password.hideProperty().get()) {
-			OnModalAction modal = ctx.getBean(MainController.class);
-			modal.canProceed(password::toggle);
+		if(key.getId() > 0) {
+			if(!password.hideProperty().get()) {
+				OnModalAction modal = ctx.getBean(MainController.class);
+				modal.canProceed(password::toggle);
+			}else {
+				password.toggle();
+			}
 		}else {
 			password.toggle();
 		}
