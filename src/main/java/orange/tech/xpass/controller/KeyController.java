@@ -2,6 +2,7 @@ package orange.tech.xpass.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import jakarta.validation.Validator;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -254,5 +256,9 @@ public class KeyController extends BaseController implements CallBackController<
 
 		return false;
 	}
+	
+	
+	
+	
 
 }

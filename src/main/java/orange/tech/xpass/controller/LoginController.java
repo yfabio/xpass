@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.Validator;
+import javafx.beans.InvalidationListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -38,6 +39,12 @@ public class LoginController extends BaseController implements CallBackControlle
 	@FXML
 	private Label register;
 	
+	@FXML
+	private Label usernameError;
+	
+	@FXML
+	private Label passwordError;
+	
 	@FXML 
 	private Person person;
 
@@ -46,7 +53,13 @@ public class LoginController extends BaseController implements CallBackControlle
 
 	@FXML
 	private Label error;
-
+	
+	private double xOffset;
+	
+	private double yOffset;
+	
+	private Stage stage;
+	
 	private FxLoader fxLoader;
 
 	private ApplicationLoggedUser applicationLoggedUser;
@@ -54,12 +67,9 @@ public class LoginController extends BaseController implements CallBackControlle
 	private ModelMapper modelMapper;
 	
 	private Validator validator;
-	
-	
-	private double xOffset;
-	private double yOffset;
-	private Stage stage;
-	
+		
+	private InvalidationListener usernameErroListener;
+	private InvalidationListener passwordErroListener;
 
 	public LoginController(FxLoader fxLoader, ApplicationLoggedUser applicationLoggedUser,
 			ModelMapper modelMapper,
@@ -77,6 +87,13 @@ public class LoginController extends BaseController implements CallBackControlle
 		password.setOnAction(evt -> onLoginHandler(evt));
 		exit.setOnAction(evt -> onExitHandler(evt));
 		exit.setTooltip(new Tooltip("close app"));
+		
+		usernameErroListener = e -> usernameError.setText("");		
+		passwordErroListener = e -> passwordError.setText("");	
+		
+		username.textProperty().addListener(usernameErroListener);
+		password.textProperty().addListener(passwordErroListener);
+		
 	}
 
 	private void onExitHandler(ActionEvent evt) {
@@ -100,18 +117,15 @@ public class LoginController extends BaseController implements CallBackControlle
 		try {
 			
 			var value  = modelMapper.map(person, orange.tech.xpass.entity.Person.class);
-			
-			var set = validator.validate(value);
-			
-			if(set.size() > 0) {
-				
-				var messages = messages(set);				
-				error.setText(messages.toString());
-				resetError(error);
-				
+								
+			if(isPersonValid(value)) {
+				return;				
 			}else {
 				
 				applicationLoggedUser.tryLogin(person.getUsername(),person.getPassword());
+				
+				username.textProperty().removeListener(usernameErroListener);
+				password.textProperty().removeListener(passwordErroListener);
 
 				Pane root = fxLoader.load(Url.MAIN, () -> stage).navigate();
 
@@ -135,6 +149,25 @@ public class LoginController extends BaseController implements CallBackControlle
 
 	
 
+	private boolean isPersonValid(orange.tech.xpass.entity.Person value) {
+		
+		var isUsernameValid = validator.validateProperty(value,"username");
+		var isPasswordValid = validator.validateProperty(value,"password");
+		
+		if(!isUsernameValid.isEmpty()) {
+			isUsernameValid.forEach(c -> usernameError.setText(c.getMessage()));
+			return true;
+		}
+		
+		
+		if(!isPasswordValid.isEmpty()) {
+			isPasswordValid.forEach(c -> passwordError.setText(c.getMessage()));
+			return true;
+		}
+		
+		return false;
+	}
+
 	@FXML
 	public void onMouseDraggedHandler(MouseEvent evt) {
 		stage.setX(evt.getScreenX() + xOffset);
@@ -152,4 +185,7 @@ public class LoginController extends BaseController implements CallBackControlle
 		this.stage = sup.get();
 	}
 
+	
+	
+	
 }
